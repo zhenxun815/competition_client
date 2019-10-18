@@ -1,0 +1,121 @@
+html body {
+    font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB";
+}
+
+ol {
+    list-style: none;
+    padding-left: 10px;
+    font-size: 12px;
+}
+
+button {
+    height: 23px;
+
+    border: 1px;
+    outline: none;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+li {
+    text-align: left;
+    display: flex;
+}
+
+.dv_top {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.dv_cases {
+    border: 1px solid #FF7437;
+    height: 90px;
+    overflow-y: scroll;
+}
+
+.dv_models {
+    border: 1px solid #FF7437;
+    height: 190px;
+    overflow-y: scroll;
+    margin-bottom: 5px;
+}
+
+.dv_bottom {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.tips {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.btn_radio {
+    -webkit-appearance: none;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #FF965C;
+    transition: 0.2s all linear;
+    outline: none;
+}
+
+.btn_radio:checked {
+    border: 6px solid #FE6225;
+}
+
+.btn_check {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #FF965C;
+    transition: 0.1s all linear;
+    outline: none;
+}
+
+.btn_check:checked {
+    background-image: url('../img/checked.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#patient_id {
+    padding-left: 3px;
+    font-size: 12px;
+    height: 20px;
+    border: none;
+    outline: #FE6225 solid thin;
+    width: 250px;
+}
+
+#patient_id:focus {
+    outline: #FF965C solid thin;
+}
+
+.btn_highlight {
+    color: white;
+    background: linear-gradient(to right, #FE6225, #FF965C);
+}
+
+#btn_cancel {
+    margin-left: 25px;
+    color: #FF7437;
+    border: 1px solid #FF7437;
+    background-color: white;
+}
+
+div::-webkit-scrollbar-track-piece {
+    background-color: white;
+}
+
+div::-webkit-scrollbar {
+    width: 5px;
+}
+
+div::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #FF7437;
+    background-clip: padding-box;
+    min-height: 15px;
+}

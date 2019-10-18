@@ -1,0 +1,115 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "http://www.dcm4che.org/maven2/"
+        }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'com.tqhy'
+version '1.0.0'
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'utf-8'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://www.dcm4che.org/maven2/"
+    }
+
+    maven {
+        name = 'dcm4che-github'
+        url "https://raw.github.com/nroduit/mvn-repo/master/"
+    }
+}
+
+dependencies {
+
+    /**
+     * spring-boot
+     */
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    /**
+     * lombok
+     */
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.6'
+    testCompileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+
+    /**
+     * NetWork Structure:
+     * rxJava + Retrofit + OkHttp + Gson
+     */
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'net.java.dev.jna:jna:4.5.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+
+    /**
+     * DCM4CHE
+     */
+    compile('org.dcm4che.tool:dcm4che-tool-dcm2jpg:5.16.1') {
+        exclude group: 'org.slf4j'
+    }
+    compile('org.dcm4che.tool:dcm4che-tool-common:5.16.1') {
+        exclude group: 'org.slf4j'
+    }
+    compile('org.dcm4che.tool:dcm4che-tool-dcmdump:5.16.1') {
+        exclude group: 'org.slf4j'
+    }
+    compile('org.weasis.thirdparty.org.opencv:opencv_java:4.0.0-dcmR3') {
+        artifact {
+            name = 'opencv_java'
+            type = 'dll'
+            classifier = 'windows-x86-64'
+        }
+        artifact {
+            name = 'opencv_java'
+            type = 'dll'
+            classifier = 'windows-x86'
+        }
+    }
+
+    /**
+     * Apache Commons
+     */
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'org.apache.commons:commons-text:1.6'
+
+    /**
+     * hotkey listener
+     */
+    implementation 'com.1stleg:jnativehook:2.1.0'
+    /**
+     * HyperSql
+     */
+    //runtime 'org.hsqldb:hsqldb:2.4.1'
+}

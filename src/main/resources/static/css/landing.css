@@ -1,0 +1,52 @@
+html body .layui-layer {
+    border-radius: 5px;
+}
+
+html body .main .right .inner .core .login-zone {
+    padding: .843339rem 0 .64656rem;
+}
+
+html body .main .right .inner .core .login-zone .input-box {
+    padding: 0 0 .421669rem;
+    text-align: left;
+    position: relative;
+}
+
+html body .main .right .inner .core .login-zone .input-box .label {
+    font-size: 16px;
+    padding: 0 0 .056223rem;
+}
+
+html body .main .right .inner .core .login-zone .input-box.user .label {
+    color: #FE6225;
+}
+
+html body .main .right .inner .core .login-zone .input-box input {
+    width: 100%;
+    /*line-height: .506003rem;*/
+    margin-top: 14px;
+    border-bottom: 1px solid #D0D0D0;
+    font-size: 12px;
+    color: #333333;
+    letter-spacing: 0.13px;
+    padding-bottom: 10px;
+}
+
+html body .main .right .inner .core .button-zone .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+}
+
+html body .main .right .inner .core .button-zone .button .img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-size: 20px 15px;
+    background-image: url("../img/login.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+/*# sourceMappingURL=landing.css.map */

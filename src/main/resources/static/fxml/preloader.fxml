@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tqhy.client.controllers.PreloaderController"
+            stylesheets="@../css/fx_preloader.css"
+            prefHeight="360.0" prefWidth="700.0" style="-fx-background-color: transparent;-fx-padding: 10px">
+
+    <!--启动加载显示页面-->
+    <VBox fx:id="panel_preloader" styleClass="panel">
+        <children>
+            <VBox fx:id="preloader_img">
+                <VBox.margin>
+                    <Insets>
+                        <top>62</top>
+                    </Insets>
+                </VBox.margin>
+            </VBox>
+            <Text fx:id="text_preloader_title" styleClass="text_title">AIC客户端程序启动
+                <VBox.margin>
+                    <Insets>
+                        <top>15</top>
+                    </Insets>
+                </VBox.margin>
+            </Text>
+            <HBox styleClass="progress_box">
+                <VBox.margin>
+                    <Insets>
+                        <top>40</top>
+                    </Insets>
+                </VBox.margin>
+                <children>
+                    <ProgressBar fx:id="progress_bar_preloader">
+                        <HBox.margin>
+                            <Insets>
+                                <left>140</left>
+                            </Insets>
+                        </HBox.margin>
+                    </ProgressBar>
+                </children>
+            </HBox>
+            <Text fx:id="text_preloader_desc" styleClass="text_tips">客户端正在启动，请耐心等待...
+                <VBox.margin>
+                    <Insets>
+                        <top>20</top>
+                    </Insets>
+                </VBox.margin>
+            </Text>
+        </children>
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,63 @@
+.panel {
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgb(208, 212, 227);
+    -fx-background-color: #FF7437;
+    -fx-background-radius: 5px;
+    -fx-min-width: 680px;
+    -fx-min-height: 340px;
+    -fx-alignment: top-center;
+    -fx-font-size: 12px;
+
+    -fx-effect: dropshadow(gaussian, rgba(208, 212, 227, 0.8), 20, 0.0, 0, 0);
+}
+
+#preloader_img {
+    -fx-min-width: 69px;
+    -fx-min-height: 69px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-background-image: url("/static/img/logo.png");
+}
+
+.text_title {
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 16px;
+}
+
+.text_tips {
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 12px;
+}
+
+
+/*
+.progress-bar {
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+}
+*/
+
+.progress-bar > .bar {
+    -fx-min-width: 400px;
+    -fx-max-width: 400px;
+    -fx-min-height: 16px;
+    -fx-max-height: 16px;
+    -fx-background-color: #F34400;
+    -fx-background-radius: 15px;
+    -fx-background-insets: 1px, 1px, 1px, 1px;
+    -fx-padding: 0px;
+}
+
+.progress-bar:indeterminate > .bar {
+    -fx-background-color: transparent;
+}
+
+.progress-bar > .track {
+    -fx-border-radius: 15px;
+    -fx-border-color: #D0D0D0;
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
+}

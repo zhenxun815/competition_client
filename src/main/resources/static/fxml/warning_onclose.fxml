@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane styleClass="window_root" stylesheets="@../css/fx_warnning_onclose.css"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.tqhy.client.controllers.WarningOnCloseController">
+
+    <VBox fx:id="base_pane" styleClass="base_pane" minWidth="600" minHeight="228">
+        <children>
+            <Text fx:id="text_success_desc" styleClass="text_title">确定退出吗?
+                <VBox.margin>
+                    <Insets>
+                        <top>55</top>
+                    </Insets>
+                </VBox.margin>
+            </Text>
+            <HBox alignment="BOTTOM_CENTER">
+                <VBox.margin>
+                    <Insets>
+                        <top>50</top>
+                    </Insets>
+                </VBox.margin>
+
+                <Button fx:id="btn_close_confirm" onMouseClicked="#closeConfirm" styleClass="btn_confirm">确认
+                    <HBox.margin>
+                        <Insets>
+                            <left>15</left>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+
+                <Button fx:id="btn_close_cancel" onMouseClicked="#closeCancel" styleClass="btn_cancel">取消
+                    <HBox.margin>
+                        <Insets>
+                            <left>15</left>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="btn_stage_minimum" onMouseClicked="#stageMinimum" styleClass="btn_cancel">最小化
+                    <HBox.margin>
+                        <Insets>
+                            <left>15</left>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+            </HBox>
+
+        </children>
+    </VBox>
+</AnchorPane>

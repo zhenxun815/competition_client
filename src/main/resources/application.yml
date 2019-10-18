@@ -1,0 +1,26 @@
+server:
+    port: 59527
+
+#db
+spring:
+    datasource:
+        driver-class-name:
+#network
+network:
+    url:
+        connection: html/connection.html
+        activating: html/activating.html
+        landing: html/landing.html
+        test: html/test_upload.html
+        mark: html/data_mark_core.html
+
+path:
+    data: /data/
+
+#log
+logging:
+    path: ./logs/
+    file:
+        max-size: 30MB
+        max-history: 3
+

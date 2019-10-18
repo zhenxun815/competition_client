@@ -1,0 +1,125 @@
+html body .main .right .inner .core .login-zone {
+    padding: .520059rem 0 1.166618rem;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 0 .843339rem;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .left, html body .main .right .inner .core .login-zone .prompt-zone .right {
+    width: auto;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .left .icon-zone, html body .main .right .inner .core .login-zone .prompt-zone .right .icon-zone {
+    width: 100%;
+    height: .477892rem;
+    background-size: .337335rem .337335rem;
+    background-repeat: no-repeat;
+    background-position: center 0;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .left .word-zone, html body .main .right .inner .core .login-zone .prompt-zone .right .word-zone {
+    font-size: 12px;
+    color: #7D7D7D;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .left .icon-zone {
+    background-image: url("../img/ip_black.png");
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .right .icon-zone {
+    background-image: url("../img/fly_black.png");
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .center {
+    margin: 0 .05rem 0;
+    width: 1.8rem;
+    line-height: .562226rem;
+    font-size: 0;
+}
+
+html body .main .right .inner .core .login-zone .prompt-zone .center .progress {
+    display: inline-block;
+    width: .070278rem;
+    height: .028111rem;
+    border-radius: 50%;
+    background-color: #7d7d7d;
+    margin: 0 .056223rem 0 0;
+}
+
+html body .main .right .inner .core .login-zone .input-box {
+    padding: 0 0 .506003rem;
+    text-align: left;
+    position: relative;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+html body .main .right .inner .core .login-zone .input-box .title {
+    font-size: 14px;
+    letter-spacing: 0;
+    font-weight: normal;
+    padding: 0 0 .140556rem;
+    text-align: left;
+}
+
+html body .main .right .inner .core .login-zone .input-box input {
+    width: 100%;
+    /*line-height: .506003rem;*/
+    margin-top: 14px;
+    border-bottom: 1px solid #D0D0D0;
+    font-size: 12px;
+    color: #333333;
+    letter-spacing: 0.13px;
+    padding-bottom: 10px;
+}
+
+html body .main .right .inner .core .login-zone .input-box .connect-test {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    color: #4186F1;
+    width: 100%;
+}
+
+html body .main .right .inner .core .login-zone .input-box .connect-test .word {
+    cursor: pointer;
+    margin: 0 .140556rem 0 0;
+}
+
+html body .main .right .inner .core .login-zone .input-box .connect-test .spin {
+    width: .168668rem;
+    height: .168668rem;
+    display: none;
+    background-image: url("../img/spinner.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    vertical-align: -2px;
+    -webkit-animation: circle 1s linear 0s infinite;
+    animation: circle 1s linear 0s infinite;
+}
+
+html body .main .right .inner .core .login-zone .input-box .connect-test .spin.show {
+    display: inline-block;
+}
+
+html body .main .right .inner .core .login-zone .input-box .callback-message {
+    bottom: .210835rem;
+}
+
+html body .main .right .inner .core .button-zone .button {
+    color: #fff;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+/*# sourceMappingURL=connection.css.map */

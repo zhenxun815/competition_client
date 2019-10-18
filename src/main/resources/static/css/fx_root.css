@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "Microsoft YaHei";
+    src: url('/static/font/msyh.ttf');
+}
+
+@font-face {
+    font-family: "Arial";
+    src: url('/static/font/arial.ttf');
+}
+
+.root {
+    -fx-font-family: "Microsoft YaHei", "Microsoft YaHei UI", "Arial", "KaiTi", "FangSong";
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+}

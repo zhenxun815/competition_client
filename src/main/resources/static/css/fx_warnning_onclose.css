@@ -1,0 +1,50 @@
+.window_root {
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+    -fx-alignment: center-left;
+}
+
+.base_pane {
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgb(208, 212, 227);
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-min-width: 600px;
+    -fx-min-height: 228px;
+    -fx-alignment: top-center;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(208, 212, 227, 0.8), 20, 0.0, 0, 0);
+}
+
+.text_title {
+    -fx-fill: #333333;
+    -fx-font-size: 20px;
+}
+
+.btn_confirm {
+    -fx-min-width: 89px;
+    -fx-min-height: 37px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 5px;
+    -fx-background-color: linear-gradient(to right, #FE6225, #FF965C);
+}
+
+.btn_confirm:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 106, 28, 0.3), 24, 0.0, 0, 8);
+}
+
+.btn_cancel {
+    -fx-min-width: 89px;
+    -fx-min-height: 37px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 1px;
+    -fx-text-fill: #7D7D7D;
+    -fx-background-color: white;
+}
+
+.btn_cancel:hover {
+    -fx-border-color: #FE6225;
+    -fx-text-fill: #FE6225;
+    -fx-effect: dropshadow(gaussian, rgba(255, 106, 28, 0.3), 24, 0.0, 0, 8);
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test2</title>
+	<script src="../js/common.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			let token = localStorage.getItem("AIC_TOKEN")
+			$('#token').html(token)
+
+			$('#btn_to_download').click(() => {
+				let imgUrls = '/home/tqhy/aic/file/54bf2594374a4e7fa8e85aa7b79e8bd3/' +
+					'20190515170248760/c1089ee69f355d17310ff09bdbbcebe7/' +
+					'b79e3d5add9c9187fcf5677e988b6476.jpg'
+					+ ';/home/tqhy/aic/file/1cb0a2e5810545988287c25b26090a03/' +
+					'20190520165235633/c36bbd258b7ee694eb987221b2b197b0/' +
+					'21d327d1517616457b1ef43b8826712c.jpg'
+				alert('download;' + imgUrls)
+			})
+
+			$('#btn_to_upload').click(() => {
+				let uploadTargetName = $('#upload_target_name').val()
+				let uploadId = $('#upload_id').val()
+				let uploadType = $('#upload_type').val()
+
+				console.log(`uploadTargetName is: ${uploadTargetName}`)
+
+				alert(`upload;${uploadType};${uploadId};${uploadTargetName}`)
+
+				/*post_ajax('upload', '/upload/start', requestData, (response) => {
+					let flag = response.flag
+					console.log(`flag is: ${flag}`)
+					if (0 == flag) {
+						layCloseFunc()
+						layOpenFunc2()
+					} else {
+						layCloseFunc()
+						layOpenFunc3()
+					}
+				})*/
+			})
+
+			$('#btn_logout').click(() => {
+				get_ajax('logout', '/logout')
+			})
+
+		})
+
+	</script>
+</head>
+<body>
+<h1>测试页...</h1>
+token is:<span id="token"> </span><br>
+
+<input id="upload_target_name" placeholder="输入上传名称" type="text"><br>
+<input id="upload_id" placeholder="输入上传任务Id" type="text"><br>
+<input id="upload_type" placeholder="输入上传类型(case,test)" type="text"><br>
+<h5>测试课题id: f9df4b3cceb4487c89b4757b310cc9b8</h5><br>
+<button id="btn_to_upload">导入入口</button>
+<button id="btn_to_download">下载入口</button>
+<br>
+<button id="btn_logout">重新登录</button>
+<span id="activating_res"></span>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+#text_progress_info {
+    -fx-text-alignment: left;
+}
+
+.progress-bar {
+    -fx-border-radius: 15px;
+}
+
+.progress-bar > .bar {
+    -fx-min-width: 400px;
+    -fx-max-width: 400px;
+    -fx-min-height: 16px;
+    -fx-max-height: 16px;
+    -fx-background-color: #FE6225;
+    -fx-background-radius: 15px;
+    -fx-background-insets: 1px, 1px, 1px, 1px;
+    -fx-padding: 0px;
+}
+
+.progress-bar:indeterminate > .bar {
+    -fx-background-color: transparent;
+}
+
+.progress-bar > .track {
+    -fx-border-radius: 15px;
+    -fx-border-color: #D0D0D0;
+    -fx-background-color: white;
+}

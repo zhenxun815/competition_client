@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="ie=edge" http-equiv="X-UA-Compatible">
+	<!-- 公共样式 -->
+	<link href="../css/common.css" rel="stylesheet">
+	<link href="../css/landing.css" rel="stylesheet">
+	<!-- layui样式 -->
+	<link href="../layui/css/layui.css" rel="stylesheet">
+	<!-- 引入rem -->
+	<script src="../js/rem.js" type="text/javascript"></script>
+	<!-- 引入layui -->
+	<script src="../layui/layui.js" type="text/javascript"></script>
+	<!-- 载入layui -->
+	<script src="../js/common.js" type="text/javascript"></script>
+	<title>AIOS 让AI触手可及</title>
+</head>
+<body>
+<div class="main">
+	<div class="left">
+		<div class="box">
+			<p class="word">让AI触手可及</p>
+		</div>
+	</div>
+	<div class="right">
+		<div class="inner">
+			<div class="core">
+				<h1 class="title">登录</h1>
+				<form class="login-zone" onsubmit="return false">
+					<div class="input-box user">
+						<h6 class="label">用户名</h6>
+						<input class="input" id="input_uname" onblur="checkUserName()"
+						       placeholder="填写用户名" type="text"/>
+						<p class="callback-message">用户名不能为空</p>
+					</div>
+					<div class="input-box user">
+						<h6 class="label">密码</h6>
+						<input class="input" id="input_upwd" onblur="checkUserPwd()"
+						       placeholder="填写密码" type="password"/>
+						<p class="callback-message" id="landing_tips">密码不能为空</p>
+					</div>
+				</form>
+				<div class="button-zone">
+					<button class="button" onclick="land()">
+						<span class="img"></span>
+					</button>
+				</div>
+			</div>
+			<p class="copyright">天启慧眼(北京)信息技术有限公司 </p>
+		</div>
+	</div>
+</div>
+
+<!-- 异常提示 -->
+<div class="lay lay1" style="display:none">
+	<div class="inner">
+		<div class="icon"></div>
+		<div class="word">
+			<p>异常提示</p>
+			<p>客户端启动异常：客户端连接数超过数量上限；</p>
+		</div>
+		<div class="button-zone">
+			<button class="button" id="enter_program" onclick="confirm()">确认</button>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+	document.oncontextmenu = function () {
+		return false;
+	}
+
+	window.onload = () => {
+		get_ajax("getUserName", "/user/name", (response) => {
+			console.log(`user name is: ${response}`)
+			if (response) {
+				$('#input_uname').val(response)
+			}
+		});
+	};
+
+	document.body.addEventListener('keyup', function (e) {
+		console.log('into key up event listener..')
+		if (e.keyCode === 13) {
+			$ = layui.jquery;
+			var nameLength = $('#input_uname').val().length
+			var pwdLength = $('#input_upwd').val().length
+			console.log(`name length ${nameLength}, pwd length ${pwdLength}`)
+			if (nameLength > 0 && pwdLength > 0) {
+				land()
+			}
+		}
+	})
+
+	function checkUserName() {
+		$ = layui.jquery
+		var nameLength = $('#input_uname').val().length
+		if (nameLength == 0) {
+			$('#input_uname').next().addClass("show")
+		} else {
+			$('#input_uname').next().removeClass("show")
+		}
+	}
+
+	function checkUserPwd() {
+		$ = layui.jquery
+		var nameLength = $('#input_upwd').val().length
+		if (nameLength == 0) {
+			$('#input_upwd').next().addClass("show")
+		} else {
+			$('#input_upwd').next().removeClass("show")
+		}
+	}
+
+	function checkInputLength() {
+		$ = layui.jquery
+		var nameLength = $('#input_uname').val().length
+		var pwdLength = $('#input_upwd').val().length
+		if (nameLength > 50 || pwdLength > 50) {
+			$('#landing_tips').html('输入长度不合法,请重新输入!')
+			$('#landing_tips').show()
+			return false
+		} else {
+			$('#landing_tips').hide()
+			return true
+		}
+	}
+
+	function confirm() {
+		layCloseFunc()
+	}
+
+	function land() {
+		//localStorage.clear()
+		if (checkValueFunc() && checkInputLength()) {
+			var userName = $('#input_uname').val()
+			var userPwd = $('#input_upwd').val()
+
+			var landInfo = {userName: userName, userPwd: userPwd}
+			console.log(`userName is: ${userName}, userPwd is: ${userPwd}`)
+			post_ajax('land', '/landing', landInfo, (response) => {
+				var flag = response.flag
+				var token = response.token
+				console.log(`flag is: ${flag}`)
+				if (1 == flag) {
+					var localIP = response.localIP
+					//window.location.href = baseUrlLocal + '/html/test_upload.html'
+					var serverIP = response.serverIP
+					//alert('server ip: '+serverIP)
+					//window.location.href = 'http://' + serverIP + '/index.html?token=' + token + '&localIP=' + localIP
+					// jsp version
+					window.location.href = 'http://' + serverIP + '/aic/project/index?token=' + token
+				} else if (203 == flag) {
+					layOpenFunc1()
+				} else {
+					$('#landing_tips').html(token)
+					$('#landing_tips').show()
+				}
+			})
+		} else {
+			$('#landing_tips').html('输入不合法,请重新输入!')
+			$('#landing_tips').show()
+		}
+	}
+</script>
+</html>
