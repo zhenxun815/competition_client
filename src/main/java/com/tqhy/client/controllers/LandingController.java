@@ -1,6 +1,5 @@
 package com.tqhy.client.controllers;
 
-import com.tqhy.client.config.Constants;
 import com.tqhy.client.models.msg.BaseMsg;
 import com.tqhy.client.models.msg.local.LandingMsg;
 import com.tqhy.client.models.msg.local.VerifyMsg;
@@ -18,7 +17,6 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -67,7 +65,9 @@ public class LandingController extends BaseWebviewController {
     @FXML
     void initialize() {
         super.initialize(webView);
-        String landingIgnoreConfig = PropertyUtils.getProperty(Constants.LANDING_IGNORE);
+        loadPage(webView, Network.LOCAL_BASE_URL + markUrl);
+        /*String landingIgnoreConfig = PropertyUtils.getProperty(Constants.LANDING_IGNORE);
+
         landingIgnore = !StringUtils.isEmpty(landingIgnoreConfig) && Boolean.parseBoolean(landingIgnoreConfig);
         if (StringUtils.isEmpty(Network.SERVER_IP)) {
             logger.info("init load url is connection");
@@ -76,12 +76,8 @@ public class LandingController extends BaseWebviewController {
             loadPage(webView, Network.SERVER_BASE_URL + "/case/release");
         } else {
             loadPage(webView, Network.LOCAL_BASE_URL + landingUrl);
-        }
+        }*/
 
-    }
-
-    public void loadConnectionPage() {
-        loadPage(webView, Network.LOCAL_BASE_URL + connectionUrl);
     }
 
     @PostMapping("/landing")
@@ -123,17 +119,11 @@ public class LandingController extends BaseWebviewController {
                .blockingSubscribe(res -> {
                    if (BaseMsg.SUCCESS == res.getFlag()) {
                        logger.info("subscribe token is {}", response.getToken());
-                       heartBeatService.startBeat(response.getToken());
                        Network.TOKEN = response.getToken();
                    }
                });
         logger.info("response is {}", response);
         return response;
-    }
-
-    @GetMapping("/logout")
-    public void logout() {
-        super.logout();
     }
 
     @GetMapping("/user/name")
@@ -142,38 +132,6 @@ public class LandingController extends BaseWebviewController {
         return PropertyUtils.getUserName();
     }
 
-
-    @PostMapping("/verify/connection")
-    public VerifyMsg activateClient(@RequestBody VerifyMsg msg) {
-        heartBeatService.stopBeat();
-        logger.info("get request.." + msg);
-        String serverIP = msg.getServerIP();
-        VerifyMsg response = new VerifyMsg();
-        Network.SERVER_IP = serverIP;
-        Network.setServerBaseUrl(serverIP);
-        logger.info("base url is: " + Network.SERVER_BASE_URL);
-        try {
-            okhttp3.ResponseBody responseBody = Network.getAicApi()
-                                                       .pingServer()
-                                                       .execute()
-                                                       .body();
-            ClientMsg clientMsg = GsonUtils.parseResponseToObj(responseBody);
-
-            if (BaseMsg.SUCCESS == clientMsg.getFlag()) {
-                logger.info("ping server: " + serverIP + " successCount");
-                PropertyUtils.setProperty(Constants.SERVER_IP, serverIP);
-                response.setLandingIgnore(landingIgnore);
-                response.setFlag(1);
-                response.setServerIP(Network.SERVER_IP);
-                return response;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return response;
-    }
 
     void sendMsgToJs(String funcName, String... msgs) {
         super.sendMsgToJs(webView, funcName, msgs);

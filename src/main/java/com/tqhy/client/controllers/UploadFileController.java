@@ -189,7 +189,6 @@ public class UploadFileController {
         jumpToLandFlag.addListener((observable, oldVal, newVal) -> {
             if (newVal) {
                 logger.info("jump to land...");
-                landingController.logout();
                 Platform.runLater(() -> stage.hide());
                 jumpToLandFlag.set(false);
             }

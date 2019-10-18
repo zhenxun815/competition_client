@@ -12,7 +12,6 @@ import com.tqhy.client.models.msg.local.SaveDataMsg;
 import com.tqhy.client.models.msg.local.UploadMsg;
 import com.tqhy.client.network.Network;
 import com.tqhy.client.network.app.JavaAppBase;
-import com.tqhy.client.service.HeartBeatService;
 import com.tqhy.client.task.DownloadTask;
 import com.tqhy.client.task.SaveFileTask;
 import com.tqhy.client.utils.FXMLUtils;
@@ -21,8 +20,6 @@ import com.tqhy.client.utils.NetworkUtils;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Worker;
 import javafx.scene.CacheHint;
 import javafx.scene.control.ButtonType;
@@ -58,12 +55,6 @@ public class BaseWebviewController {
 
 
     Logger logger = LoggerFactory.getLogger(BaseWebviewController.class);
-    /**
-     * 判断页面是否需要跳转到登录页,与{@link com.tqhy.client.service.HeartBeatService HeartBeatService} 中
-     * {@code jumpToLandingFlag} 进行双向绑定
-     */
-    BooleanProperty jumpToLandingFlag = new SimpleBooleanProperty(false);
-    public static BooleanProperty jumpToConnectionFlag = new SimpleBooleanProperty(false);
 
     @Value("${network.url.landing:''}")
     private String landingUrl;
@@ -72,16 +63,11 @@ public class BaseWebviewController {
     private String connectionUrl;
 
     @Autowired
-    HeartBeatService heartBeatService;
-
-    @Autowired
     UploadFileController uploadFileController;
 
     void initialize(WebView webView) {
         initWebView(webView);
         initWebAlert(webView);
-        initJumpToLanding(webView);
-        initJumpToConnection(webView);
     }
 
     /**
@@ -133,10 +119,6 @@ public class BaseWebviewController {
 
                            Optional<SaveDatas> saveDataOptional = GsonUtils.parseJsonToObj(dataToSave, SaveDatas.class);
                            onSaveDataOption(saveDataOptional);
-                           break;
-                       case Constants.CMD_MSG_LOGOUT:
-                           heartBeatService.stopBeat();
-                           logout();
                            break;
                        default:
                            showAlert(data);
@@ -225,36 +207,6 @@ public class BaseWebviewController {
         }
     }
 
-    /**
-     * 初始化跳转登录页面逻辑
-     */
-    private void initJumpToLanding(WebView webView) {
-        jumpToLandingFlag.bindBidirectional(heartBeatService.jumpToLandingFlagProperty());
-        jumpToLandingFlag.addListener((observable, oldValue, newValue) -> {
-            logger.info("jumpToLandingFlag changed,oldValue is: " + oldValue + ", newValue is: " + newValue);
-            if (newValue) {
-                Platform.runLater(() -> {
-                    logger.info("jump to landing");
-                    webView.getEngine().load(Network.LOCAL_BASE_URL + landingUrl);
-                });
-                jumpToLandingFlag.set(false);
-            }
-        });
-    }
-
-    private void initJumpToConnection(WebView webView) {
-        heartBeatService.stopBeat();
-        jumpToConnectionFlag.addListener((observable, oldValue, newValue) -> {
-            logger.info("jumpToLandingFlag changed,oldValue is: " + oldValue + ", newValue is: " + newValue);
-            if (newValue) {
-                Platform.runLater(() -> {
-                    logger.info("jump to landing");
-                    webView.getEngine().load(Network.LOCAL_BASE_URL + connectionUrl);
-                });
-                jumpToConnectionFlag.setValue(false);
-            }
-        });
-    }
 
     /**
      * alert
@@ -296,11 +248,6 @@ public class BaseWebviewController {
                   }
               });
     }
-
-    void logout() {
-        jumpToLandingFlag.set(true);
-    }
-
 
     /**
      * 向js传值
