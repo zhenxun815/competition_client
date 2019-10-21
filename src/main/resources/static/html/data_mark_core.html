@@ -52,7 +52,7 @@
 		<div class="layui-tab" lay-filter="layui_tab_left">
 			<ul class="layui-tab-title">
 				<li class="layui-this">标注分类</li>
-				<li>测试详情</li>
+				<!--<li>测试详情</li>-->
 				<li>标注颜色</li>
 			</ul>
 			<div class="layui-tab-content">
@@ -73,7 +73,7 @@
 					<!-- 悬浮白色区域 -->
 					<div class="showy" id="showy">已标注 ..</div>
 				</div>
-				<div class="layui-tab-item detail-box">
+				<!--<div class="layui-tab-item detail-box">
 					<p class="p">测试任务名称</p>
 					<p class="p"><span class="gray">被测试模型：</span></p>
 					<p class="p"><span class="gray">迭代次数：</span></p>
@@ -83,11 +83,11 @@
 					<p class="p"><span class="gray" style="display: inline-block;vertical-align: top">备注信息：</span>
 						<span class="square">
 
-                <!-- <span class="abs m-icon blue-tri"></span> -->
+                &lt;!&ndash; <span class="abs m-icon blue-tri"></span> &ndash;&gt;
               </span>
 					</p>
 					<p class="p"><span class="gray">测试结果：</span></p>
-				</div>
+				</div>-->
 				<div class="layui-tab-item color-box">
 					当前标注颜色：
 					<input class="jscolor m-input roundrect-input" id="my_color" style="width: auto;border:0" value=""/>
@@ -151,20 +151,20 @@
 					<!-- 删除 查看数据用 -->
 					<div class="com-circle-button button delete" id="tips_delete" style="display: none"></div>
 					<!-- 返回 标注用 测试结果用 -->
-					<div class="com-circle-button button back" style="display: none" id="tips_back" style=""></div>
+					<div class="com-circle-button button back" id="tips_back" style="display: none" style=""></div>
 					<!-- </a> -->
 				</div>
 				<!-- 手动输入跳转 -->
-				<div class="manual-operation">
-					<!-- <form action="" class="form-inline"> -->
+				<!--<div class="manual-operation">
+					&lt;!&ndash; <form action="" class="form-inline"> &ndash;&gt;
 					转至第<input class="m-input open-input" id="choose_manual_value" type="text">张&nbsp;&nbsp;
-					<!-- bs 下拉菜单 废弃 -->
-					<!-- bs 下拉菜单 END -->
+					&lt;!&ndash; bs 下拉菜单 废弃 &ndash;&gt;
+					&lt;!&ndash; bs 下拉菜单 END &ndash;&gt;
 					<button class="m-btn mark-jump size mini" id="choose_manual_button"
 					        type="button">确定
 					</button>
-					<!-- </form> -->
-				</div>
+					&lt;!&ndash; </form> &ndash;&gt;
+				</div>-->
 				<!-- 样本地址 -->
 				<div class="number-msg-zone">
 					<p class="specimen-address"><span id="specimen_address_name"></span></p>
@@ -259,22 +259,16 @@
 				</script>
 
 				<!-- 同步到标注 -->
-				<!--<div class="mark-button-margin" style="">
+				<div class="mark-button-margin" style="">
 					<div class="data-menu-zone one-floor">
 						<div class="item-typeb">
-							<div class="my-mark-button" id="synchronization">
-								&lt;!&ndash; <span class="icon palette"></span> &ndash;&gt;
-								<span>同步到标注</span>
-							</div>
-						</div>
-						<div class="item-typeb">
-							<div class="my-mark-button" id="mark_history">
-								<span class="icon"></span>
-								<span>历史标注</span>
+							<div class="my-mark-button" id="save_synchronization">
+								<!-- <span class="icon palette"></span> -->
+								<span>完成本题</span>
 							</div>
 						</div>
 					</div>
-				</div>-->
+				</div>
 
 				<!-- 四维导航 -->
 				<div class="data-menu-zone">
@@ -314,11 +308,11 @@
 					<div class="layui-tab" lay-filter="layui_tab_right">
 						<ul class="layui-tab-title">
 							<li class="layui-this">序列</li>
-							<li class="">阈值</li>
 							<li class="">标注分类</li>
-							<li class="">模型分类</li>
+							<!--<li class="">模型分类</li>
+							<li class="">阈值</li>
 							<li class="">课题</li>
-							<li class="">模型</li>
+							<li class="">模型</li>-->
 						</ul>
 						<div class="layui-tab-content">
 							<!-- 序列 -->
@@ -327,13 +321,13 @@
 								</div>
 							</div>
 							<!-- 阈值 -->
-							<div class="layui-tab-item slider-zone">
+							<!--<div class="layui-tab-item slider-zone">
 
 								<div class="demo-slider" id="demo_slider"></div>
 								<b class="left w abs">低</b>
 								<b class="right w abs">高</b>
 
-							</div>
+							</div>-->
 							<!-- 标签分类 -->
 							<div class="layui-tab-item choose-type-zone">
 								<p class="sli-title"></p>
@@ -353,7 +347,7 @@
 								</div>
 							</div>
 							<!-- 模型分类 -->
-							<div class="layui-tab-item choose-model-zone">
+							<!--<div class="layui-tab-item choose-model-zone">
 								<p class="sli-title"></p>
 								<div class="layui-form abs" style="top:0;right:0">
 									<div class="layui-form-item">
@@ -363,22 +357,22 @@
 									</div>
 								</div>
 								<div class="layui-form" id="cb_models">
-									<!-- <input type="checkbox" name="model_a" data-id="model_a" class="modelId" lay-filter="m_other" lay-skin="primary" title="A" checked="true"> -->
-									<!-- <input type="checkbox" name="model_b" data-id="model_b" class="modelId" lay-filter="m_other" lay-skin="primary" title="B" checked="true"> -->
-									<!-- <input type="checkbox" name="model_c" data-id="model_c" class="modelId" lay-filter="m_other" lay-skin="primary" title="C" checked="true"> -->
+									&lt;!&ndash; <input type="checkbox" name="model_a" data-id="model_a" class="modelId" lay-filter="m_other" lay-skin="primary" title="A" checked="true"> &ndash;&gt;
+									&lt;!&ndash; <input type="checkbox" name="model_b" data-id="model_b" class="modelId" lay-filter="m_other" lay-skin="primary" title="B" checked="true"> &ndash;&gt;
+									&lt;!&ndash; <input type="checkbox" name="model_c" data-id="model_c" class="modelId" lay-filter="m_other" lay-skin="primary" title="C" checked="true"> &ndash;&gt;
 								</div>
-								<!-- 识别按钮 -->
+								&lt;!&ndash; 识别按钮 &ndash;&gt;
 								<span class="m-btn abs" id="discriminate" style="right: 0; bottom:20px">识别</span>
-							</div>
+							</div>-->
 							<!-- 课题 -->
-							<div class="layui-tab-item">
+							<!--<div class="layui-tab-item">
 								<p class="sli-title"></p>
 								<div class="layui-form" id="topic_radio">
-									<!-- <input type="radio" name="topic" value="男" title="男" checked="false"> -->
+									&lt;!&ndash; <input type="radio" name="topic" value="男" title="男" checked="false"> &ndash;&gt;
 								</div>
-							</div>
+							</div>-->
 							<!-- 模型 -->
-							<div class="layui-tab-item"></div>
+							<!--<div class="layui-tab-item"></div>-->
 						</div>
 					</div>
 				</div>
@@ -404,23 +398,6 @@
 </div>
 <!-- 标注页面 END -->
 
-<!-- 弹出层 -->
-<div class="mark_synchronization layer" id="layer_synchronization"
-     style="display: none;position:relative;width:100%;height:95%">
-	<div class="layer-main">
-		<p>标注分类如下：</p>
-		<div class="synchronization-type-show">
-
-		</div>
-		<p><b>确定要同步到标注吗？</b></p>
-		<div class="layui-form-item">
-			<div class="layui-input-block abs" style="margin:0;text-align:center;bottom: 20px;left:0">
-				<button class="layui-btn layui-btn-primary" onclick="layui.layer.closeAll('page')">取消</button>
-				<button class="layui-btn" id="save_synchronization">确认同步</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- 引入 layui -->
 <script src="../library/layui/2.5.4/layui.js" type="text/javascript"></script>
@@ -455,7 +432,6 @@
 <script src="../js/tag2.js" type="text/javascript"></script>
 <!-- tag2.js的补充 主要是附加功能 -->
 <script src="../js/tag_tag.js" type="text/javascript"></script>
-
 
 <script>
 	// 标注配置项
@@ -539,9 +515,22 @@
 
 		// 渲染入口
 		// 变更样本时需要重新渲染
-		RenderFunc(OriginA)
-
+		getOriginA()
 	})
+
+	function getOriginA() {
+		$.ajax({
+			type: "GET",
+			url: '/originA',
+			async: true,
+			success: function (response) {
+				if (response) {
+					console.log(response)
+					RenderFunc(JSON.parse(response))
+				}
+			}
+		})
+	}
 
 	// setTimeout(function () {
 	//   layer.alert('...', {

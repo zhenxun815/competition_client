@@ -149,7 +149,7 @@ function saveSubmitAllCoreFunc(re) {
 function layuiInitFunc(lu) {
 	// 打开同步到标注弹窗的方法
 	function openSynchronizationLayer() {
-		layer.open({
+		/*layer.open({
 			title: '添加分类样本',
 			move: false,
 			type: 1,
@@ -162,12 +162,14 @@ function layuiInitFunc(lu) {
 			success: function () {
 				calcSynchronizationFunc()
 			}
-		});
+		});*/
 
 		$("#save_synchronization").click(function () {
+			console.log('save_synchronization....')
+			calcSynchronizationFunc()
 			saveSubmitAllFunc()
 
-			layui.layer.closeAll('page')
+			//layui.layer.closeAll('page')
 		})
 	}
 

@@ -46,169 +46,6 @@ var jqContextMenuOffsetLeftNumber
 // 这三个在正式中会被赋值替换
 // 模拟的数据
 // 实际使用时会被覆写
-var OriginA = [
-	{
-		"circle_datas": [{
-			"score": "100",
-			"svgType": "polygon",
-			"typeName": "肺结节",
-			"typeId": "41ce00f68aa8469db1f87a933a326623",
-			"modelTypeId": "PP99263992E46273D84693BDBE8513A3",
-			"modelTypeName": "肺结节",
-			"id": "1237A14818A22E0017965EAEBCA29B4B",
-			"circle": [{
-				"x": 281.4158273381295,
-				"y": 132.6043165467626,
-				"id": "ECEA263992E46273D84693BDBE8513A3"
-			}, {
-				"x": 193.74964028776978,
-				"y": 189.3294964028777,
-				"id": "8D857CAFF2EFE9469A64DF2383A61FA7"
-			}, {
-				"x": 286.5726618705036,
-				"y": 228.37410071942446,
-				"id": "5653ABC3CEF31454A16A1AB4198BF4CC"
-			}, {
-				"x": 346.9812949640288,
-				"y": 220.2705035971223,
-				"id": "E041E716A271650781CE33147F6FE885"
-			}, {
-				"x": 363.1884892086331,
-				"y": 187.85611510791367,
-				"id": "DCCC0BC96F1564C4EBDABC301A373D80"
-			}]
-		}],
-		"imgWidth": 512,
-		"tagFlag": 1,
-		"imgID": "1c7071ebf4c940dda9cf14a296e025b9",
-		"imagePath": "img/image_001.jpg",
-		"typeName": "",
-		"imgHeight": 512,
-		"typeId": ""
-	}, {
-		"circle_datas": [{
-			"score": "100",
-			"svgType": "polygon",
-			"modelTypeId": "PP99263992E46273D84693BDBE8513A3",
-			"modelTypeName": "肺结节",
-			"typeName": "",
-			"typeId": "",
-			"id": "1237A14818A22E0017965EAEBCA29B4B",
-			"circle": [{
-				"x": 281.4158273381295,
-				"y": 132.6043165467626,
-				"id": "ECEA263992E46273D84693BDBE8513A3"
-			}, {
-				"x": 193.74964028776978,
-				"y": 189.3294964028777,
-				"id": "8D857CAFF2EFE9469A64DF2383A61FA7"
-			}, {
-				"x": 286.5726618705036,
-				"y": 228.37410071942446,
-				"id": "5653ABC3CEF31454A16A1AB4198BF4CC"
-			}, {
-				"x": 346.9812949640288,
-				"y": 220.2705035971223,
-				"id": "E041E716A271650781CE33147F6FE885"
-			}, {
-				"x": 363.1884892086331,
-				"y": 187.85611510791367,
-				"id": "DCCC0BC96F1564C4EBDABC301A373D80"
-			}]
-		}],
-		"imgWidth": 512,
-		"tagFlag": 0,
-		"imgID": "2c9ca38636294637b231d431596c74a4",
-		"imagePath": "img/image_002.jpg",
-		"typeName": "",
-		"imgHeight": 512,
-		"typeId": ""
-	}, {
-		"circle_datas": [{
-			"score": "100",
-			"svgType": "polygon",
-			"modelTypeId": "PP99263992E46273D84693BDBE8513A3",
-			"modelTypeName": "肺结节",
-			"typeName": "肺结节",
-			"typeId": "41ce00f68aa8469db1f87a933a326623",
-			"id": "1237A14818A22E0017965EAEBCA29B4B",
-			"circle": [{
-				"x": 281.4158273381295,
-				"y": 132.6043165467626,
-				"id": "ECEA263992E46273D84693BDBE8513A3"
-			}, {
-				"x": 193.74964028776978,
-				"y": 189.3294964028777,
-				"id": "8D857CAFF2EFE9469A64DF2383A61FA7"
-			}, {
-				"x": 286.5726618705036,
-				"y": 228.37410071942446,
-				"id": "5653ABC3CEF31454A16A1AB4198BF4CC"
-			}, {
-				"x": 346.9812949640288,
-				"y": 220.2705035971223,
-				"id": "E041E716A271650781CE33147F6FE885"
-			}, {
-				"x": 363.1884892086331,
-				"y": 187.85611510791367,
-				"id": "DCCC0BC96F1564C4EBDABC301A373D80"
-			}]
-		}],
-		"imgWidth": 512,
-		"tagFlag": 0,
-		"imgID": "f546115909584a57be7f5fec6d3b8c7b",
-		"imagePath": "img/image_003.jpg",
-		"typeName": "",
-		"imgHeight": 512,
-		"typeId": ""
-	}, {
-		"circle_datas": [{
-			"score": "100",
-			"svgType": "polygon",
-			"modelTypeId": "PP99263992E46273D84693BDBE8513A3",
-			"modelTypeName": "肺结节",
-			"typeName": "",
-			"typeId": "",
-			"id": "1237A14818A22E0017965EAEBCA29B4B",
-			"circle": [{
-				"x": 281.4158273381295,
-				"y": 132.6043165467626,
-				"id": "ECEA263992E46273D84693BDBE8513A3"
-			}, {
-				"x": 193.74964028776978,
-				"y": 189.3294964028777,
-				"id": "8D857CAFF2EFE9469A64DF2383A61FA7"
-			}, {
-				"x": 286.5726618705036,
-				"y": 228.37410071942446,
-				"id": "5653ABC3CEF31454A16A1AB4198BF4CC"
-			}, {
-				"x": 346.9812949640288,
-				"y": 220.2705035971223,
-				"id": "E041E716A271650781CE33147F6FE885"
-			}, {
-				"x": 363.1884892086331,
-				"y": 187.85611510791367,
-				"id": "DCCC0BC96F1564C4EBDABC301A373D80"
-			}]
-		}],
-		"imgWidth": 512,
-		"tagFlag": 0,
-		"imgID": "94fb8f5c65af4574990904089f23540f",
-		"imagePath": "img/image_004.jpg",
-		"typeName": "",
-		"imgHeight": 512,
-		"typeId": ""
-	}, {
-		"circle_datas": [],
-		"imgWidth": 512,
-		"tagFlag": 0,
-		"imgID": "b225b150316a4cd1a3f7020da4315c79",
-		"imagePath": "img/image_005.jpg",
-		"typeName": "",
-		"imgHeight": 512,
-		"typeId": ""
-	}];
 
 // 模拟的数据 networkImagePageData.imgArray = OriginA
 // 实际使用时没用上
@@ -765,9 +602,7 @@ function MOUNTED_ONCE() {
 		my_color.value = baseColor.replace(/#/g, "");
 	}
 	// 重置
-	$(".jump_button").click(function () {
-		jumpFunc()
-	})
+
 	// 张/例手动跳转
 	$("#choose_manual_button").click(function () {
 		var check = function (number) {
@@ -807,10 +642,10 @@ function MOUNTED_ONCE() {
 	})
 
 	// TEST
-	$("#jump_button_b").click(function () {
+	/*$("#jump_button_b").click(function () {
 		// permissionFlag = !permissionFlag
 		RenderFunc(OriginA)
-	})
+	})*/
 }
 
 // EDIT ===>>> 0902
@@ -1537,5 +1372,5 @@ function calcSynchronizationFunc() {
 	// set 全局变量
 	saveSynchronizationArray = Synchronization
 	// 输出DOM
-	makeDOMFunc(type)
+	//makeDOMFunc(type)
 }

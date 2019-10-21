@@ -58,8 +58,8 @@
 	<div class="inner">
 		<div class="icon"></div>
 		<div class="word">
-			<p>异常提示</p>
-			<p>客户端启动异常：客户端连接数超过数量上限；</p>
+			<p>登录成功</p>
+			<p>请选择待标注数据</p>
 		</div>
 		<div class="button-zone">
 			<button class="button" id="enter_program" onclick="confirm()">确认</button>
@@ -71,15 +71,6 @@
 	document.oncontextmenu = function () {
 		return false;
 	}
-
-	window.onload = () => {
-		get_ajax("getUserName", "/user/name", (response) => {
-			console.log(`user name is: ${response}`)
-			if (response) {
-				$('#input_uname').val(response)
-			}
-		});
-	};
 
 	document.body.addEventListener('keyup', function (e) {
 		console.log('into key up event listener..')
@@ -130,6 +121,7 @@
 
 	function confirm() {
 		layCloseFunc()
+		alert('upload;test;' + 'taskId' + ';' + '人机对抗赛')
 	}
 
 	function land() {
@@ -151,8 +143,8 @@
 					//alert('server ip: '+serverIP)
 					//window.location.href = 'http://' + serverIP + '/index.html?token=' + token + '&localIP=' + localIP
 					// jsp version
-					window.location.href = 'http://' + serverIP + '/aic/project/index?token=' + token
-				} else if (203 == flag) {
+					//window.location.href = 'http://' + serverIP + '/aic/project/index?token=' + token
+
 					layOpenFunc1()
 				} else {
 					$('#landing_tips').html(token)
