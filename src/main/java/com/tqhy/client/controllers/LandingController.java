@@ -3,12 +3,8 @@ package com.tqhy.client.controllers;
 import com.tqhy.client.models.msg.BaseMsg;
 import com.tqhy.client.models.msg.local.LandingMsg;
 import com.tqhy.client.models.msg.local.VerifyMsg;
-import com.tqhy.client.models.msg.server.ClientMsg;
 import com.tqhy.client.network.Network;
-import com.tqhy.client.utils.GsonUtils;
 import com.tqhy.client.utils.NetworkUtils;
-import com.tqhy.client.utils.PropertyUtils;
-import io.reactivex.schedulers.Schedulers;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -17,10 +13,10 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Yiheng
@@ -57,9 +53,9 @@ public class LandingController extends BaseWebviewController {
     private boolean landingIgnore;
 
 
-    public void showPage(String url2show) {
-        logger.info("load ai case ing index page..., {}", url2show);
-        loadPage(webView, url2show);
+    public void startMark() {
+        logger.info("load ai case ing index page..., {}", markUrl);
+        loadPage(webView, Network.LOCAL_BASE_URL + markUrl);
     }
 
     @FXML
@@ -95,9 +91,10 @@ public class LandingController extends BaseWebviewController {
 
         String userName = landingMsg.getUserName().trim();
         String userPwd = landingMsg.getUserPwd().trim();
-        PropertyUtils.setUserName(userName);
 
-        Network.getAicApi()
+        logger.info("request username: {}, password: {}", userName, userPwd);
+
+       /* Network.getAicApi()
                .landing(userName, userPwd)
                .observeOn(Schedulers.io())
                .subscribeOn(Schedulers.trampoline())
@@ -121,15 +118,10 @@ public class LandingController extends BaseWebviewController {
                        logger.info("subscribe token is {}", response.getToken());
                        Network.TOKEN = response.getToken();
                    }
-               });
+               });*/
+        response.setFlag(1);
         logger.info("response is {}", response);
         return response;
-    }
-
-    @GetMapping("/user/name")
-    @ResponseBody
-    public String getUserName() throws IOException {
-        return PropertyUtils.getUserName();
     }
 
 
