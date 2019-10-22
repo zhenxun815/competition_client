@@ -166,7 +166,7 @@ public class UploadFileController {
 
         stage.iconifiedProperty()
              .addListener((observable, oldVal, newVal) -> {
-                 logger.info("main stage iconified state change..." + newVal);
+                 //logger.info("main stage iconified state change..." + newVal);
                  ClientApplication.stage.setIconified(newVal);
              });
 
@@ -258,16 +258,11 @@ public class UploadFileController {
                                   String caseJson = msgSplit[1];
                                   logger.info("case json is {}", caseJson);
                                   break;
-                              case DcmTransWorkerTask.PROGRESS_MSG_COLLECT:
-                                  String infoType = msgSplit[1];
-                                  if (infoType.equals("progress")) {
-                                      text_progress_desc.setText("文件导入中,请耐心等待..");
-                                  } else {
-                                      text_progress_desc.setText("文件信息采集中,请耐心等待..");
-                                  }
-                                  double process = Double.parseDouble(msgSplit[2]);
-                                  logger.info("process is {}", process);
-                                  text_progress_info.setText(decimalFormat.format(process) + "%");
+                              case DcmTransWorkerTask.PROGRESS_MSG_TRANS:
+                                  text_progress_desc.setText("文件信息导入中,请耐心等待..");
+                                  double collectProcess = Double.parseDouble(msgSplit[2]);
+                                  logger.info("collect process is {}", collectProcess);
+                                  text_progress_info.setText(decimalFormat.format(collectProcess) + "%");
                                   break;
                           }
                       });

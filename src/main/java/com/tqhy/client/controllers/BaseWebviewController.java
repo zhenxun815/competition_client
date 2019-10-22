@@ -2,20 +2,14 @@ package com.tqhy.client.controllers;
 
 import com.tqhy.client.config.Constants;
 import com.tqhy.client.models.entity.DownloadInfo;
-import com.tqhy.client.models.entity.SaveDataBody;
-import com.tqhy.client.models.entity.SaveDatas;
 import com.tqhy.client.models.enums.DownloadTaskApi;
-import com.tqhy.client.models.enums.SaveTaskType;
 import com.tqhy.client.models.msg.BaseMsg;
 import com.tqhy.client.models.msg.local.DownloadMsg;
-import com.tqhy.client.models.msg.local.SaveDataMsg;
 import com.tqhy.client.models.msg.local.UploadMsg;
 import com.tqhy.client.network.Network;
 import com.tqhy.client.network.app.JavaAppBase;
 import com.tqhy.client.task.DownloadTask;
-import com.tqhy.client.task.SaveFileTask;
 import com.tqhy.client.utils.FXMLUtils;
-import com.tqhy.client.utils.GsonUtils;
 import com.tqhy.client.utils.NetworkUtils;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -40,7 +34,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -100,7 +93,7 @@ public class BaseWebviewController {
                            String uploadTargetName = split[3];
                            uploadFileController.openUpload(UploadMsg.with(uploadType, uploadId, uploadTargetName));
                            break;
-                       case Constants.CMD_MSG_DOWNLOAD:
+                     /*  case Constants.CMD_MSG_DOWNLOAD:
                            //download;{"fileName":"taskName","imgUrlString":"imgUrl1,imgUrl2"}
                            int index = data.indexOf(Constants.MSG_SPLITTER);
                            String jsonStr = data.substring(index + 1);
@@ -108,64 +101,13 @@ public class BaseWebviewController {
                            Optional<DownloadInfo> downloadInfoOptional = GsonUtils.parseJsonToObj(jsonStr,
                                                                                                   DownloadInfo.class);
                            onDownloadOption(downloadInfoOptional);
-                           break;
-                       case Constants.CMD_MSG_SAVE:
-                            /*save;{"fileName":"projectName",
-                            "head":[{"title":"分类名称","key":"name","__id":"gCYIMF"},{"title":"已标注","key":"value","__id":"gcSMlC"},{"title":"占比","key":"per","__id":"37ZTmj"}],
-                            "body":[{"name":"temp","value":2,"per":"8%"},{"name":"牙","value":11,"per":"44%"}]
-                            }*/
-
-                           String dataToSave = split[1];
-
-                           Optional<SaveDatas> saveDataOptional = GsonUtils.parseJsonToObj(dataToSave, SaveDatas.class);
-                           onSaveDataOption(saveDataOptional);
-                           break;
+                           break;*/
                        default:
                            showAlert(data);
                    }
                });
     }
 
-
-    /**
-     * 执行保存指令
-     */
-    private void onSaveDataOption(Optional<SaveDatas> saveDataOptional) {
-        if (saveDataOptional.isPresent()) {
-            SaveDatas saveDatas = saveDataOptional.get();
-            List<SaveDataBody> body = saveDatas.getBody();
-
-            if (null == body || body.size() == 0) {
-                logger.info("save body is empty...");
-                return;
-            }
-
-            File saveDir = FXMLUtils.chooseDir(null);
-            if (null == saveDir) {
-                return;
-            }
-
-            Observable.fromCallable(
-                    SaveFileTask.of(SaveDataMsg.of(SaveTaskType.SAVE_REPORT_TO_CSV, saveDir, saveDatas)))
-                      .subscribeOn(Schedulers.io())
-                      .observeOn(Schedulers.io())
-                      .subscribe(saveDataMsgObservable -> {
-                          saveDataMsgObservable.subscribe(saveDataMsg -> {
-                              Integer saveFlag = saveDataMsg.getFlag();
-                              if (BaseMsg.SUCCESS == saveFlag) {
-                                  logger.info("save success");
-                                  showAlert("保存完毕");
-                              } else {
-                                  logger.info("save fail");
-                                  showAlert("保存失败");
-                              }
-                          });
-                      });
-        } else {
-            logger.info("save optional is null");
-            showAlert("保存失败");
-        }
-    }
 
     /**
      * 执行下载指令

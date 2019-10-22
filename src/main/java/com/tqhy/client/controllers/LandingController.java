@@ -61,7 +61,7 @@ public class LandingController extends BaseWebviewController {
     @FXML
     void initialize() {
         super.initialize(webView);
-        loadPage(webView, Network.LOCAL_BASE_URL + markUrl);
+        loadPage(webView, Network.LOCAL_BASE_URL + landingUrl);
         /*String landingIgnoreConfig = PropertyUtils.getProperty(Constants.LANDING_IGNORE);
 
         landingIgnore = !StringUtils.isEmpty(landingIgnoreConfig) && Boolean.parseBoolean(landingIgnoreConfig);

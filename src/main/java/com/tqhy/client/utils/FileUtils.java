@@ -8,7 +8,6 @@ import org.springframework.lang.Nullable;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -71,8 +70,11 @@ public class FileUtils {
      * @param dir
      * @return
      */
-    public static HashMap<File, String> getFilesMapInSubDir(File dir, Predicate<File> filter, File rootDir) {
+    public static HashMap<File, String> getFilesMapInSubDir(File jpgDir, File dir, Predicate<File> filter,
+                                                            File rootDir) {
         //logger.info("into get file map in sub dir...");
+
+
         File[] files = dir.listFiles();
         if (null == files || files.length == 0) {
             return new HashMap<>();
@@ -80,10 +82,15 @@ public class FileUtils {
         return Arrays.stream(files)
                      .collect(HashMap::new,
                               (map, file) -> {
-                                  if (filter.test(file) && !file.getParentFile().equals(rootDir)) {
-                                      map.put(file, generateCaseName(file));
-                                  } else {
-                                      map.putAll(getFilesMapInSubDir(file, filter, rootDir));
+                                  if (filter.test(file)) {
+                                      String caseId = generateCaseName(file);
+                                      File jpgCaseDir = new File(jpgDir, caseId);
+
+                                      if (!jpgCaseDir.exists()) {
+                                          jpgCaseDir.mkdirs();
+                                      }
+                                      Optional<File> jpgFileOpt = transToJpg(file, jpgCaseDir);
+                                      map.put(file, caseId);
                                   }
                               },
                               HashMap::putAll);
@@ -406,13 +413,18 @@ public class FileUtils {
 
     public static OriginData getOriginData(File file) {
 
+        String imagePath = file.getAbsolutePath();
+        logger.info("start get origin data {}", imagePath);
 
+        String imgId = getFileMD5(file);
+        logger.info("get imgId {}", imgId);
         try {
-            String imgId = getFileMD5(file);
-            BufferedImage image = ImageIO.read(file);
-            int imgWidth = image != null ? image.getWidth() : 0;
-            int imgHeight = image != null ? image.getHeight() : 0;
-            String imagePath = file.getAbsolutePath();
+            ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
+            reader.setInput(imageInputStream);
+            int imgWidth = reader.getWidth(0);
+            int imgHeight = reader.getHeight(0);
+            logger.info("width {}, height {}", imgWidth, imgHeight);
             return OriginData.of(imgId, imgWidth, imgHeight, imagePath);
         } catch (IOException e) {
             e.printStackTrace();
@@ -423,7 +435,9 @@ public class FileUtils {
 
     public static String getFileMD5(File file) {
         String name = "";
+
         try (InputStream inputStream = new FileInputStream(file)) {
+
             byte[] bytes = new byte[1024];
             int len = 0;
             MessageDigest messagedigest = MessageDigest.getInstance("MD5");
