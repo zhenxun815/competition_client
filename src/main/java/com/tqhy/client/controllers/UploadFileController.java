@@ -4,7 +4,7 @@ import com.tqhy.client.ClientApplication;
 import com.tqhy.client.config.Constants;
 import com.tqhy.client.models.msg.local.UploadMsg;
 import com.tqhy.client.network.Network;
-import com.tqhy.client.task.UploadWorkerTask;
+import com.tqhy.client.task.DcmTransWorkerTask;
 import com.tqhy.client.utils.FXMLUtils;
 import com.tqhy.client.utils.FileUtils;
 import javafx.application.Platform;
@@ -37,6 +37,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -142,7 +143,7 @@ public class UploadFileController {
     @Autowired
     LandingController landingController;
 
-    private UploadWorkerTask workerTask;
+    private DcmTransWorkerTask workerTask;
 
     private VBox[] panels;
 
@@ -224,7 +225,7 @@ public class UploadFileController {
      * @param mouseEvent
      */
     @FXML
-    public void startUpload(MouseEvent mouseEvent) {
+    public void startUpload(MouseEvent mouseEvent) throws ExecutionException, InterruptedException {
         MouseButton button = mouseEvent.getButton();
         if (MouseButton.PRIMARY.equals(button)) {
             logger.info(button.name() + "....");
@@ -241,7 +242,7 @@ public class UploadFileController {
             uploadMsg.setRemarks("remarks");
             String batchNumber = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
 
-            workerTask = UploadWorkerTask.with(dirToUpload, localDataPath, batchNumber);
+            workerTask = DcmTransWorkerTask.with(dirToUpload, localDataPath, batchNumber);
 
             workerTask.messageProperty()
                       .addListener((observable, oldVal, newVal) -> {
@@ -249,13 +250,15 @@ public class UploadFileController {
                           logger.info("upload progress msg..." + newVal);
                           String[] msgSplit = newVal.split(";");
                           switch (msgSplit[0]) {
-                              case UploadWorkerTask.PROGRESS_MSG_COMPLETE:
+                              case DcmTransWorkerTask.PROGRESS_MSG_COMPLETE:
                                   //显示导入成功页面
                                   showPanel(panel_complete.getId());
                                   String completeMsg = "数据导入完毕!";
                                   text_success_desc.setText(completeMsg);
+                                  String caseJson = msgSplit[1];
+                                  logger.info("case json is {}", caseJson);
                                   break;
-                              case UploadWorkerTask.PROGRESS_MSG_COLLECT:
+                              case DcmTransWorkerTask.PROGRESS_MSG_COLLECT:
                                   String infoType = msgSplit[1];
                                   if (infoType.equals("progress")) {
                                       text_progress_desc.setText("文件导入中,请耐心等待..");
@@ -274,6 +277,7 @@ public class UploadFileController {
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.submit(workerTask);
+
         }
     }
 

@@ -1,6 +1,9 @@
 package com.tqhy.client.task;
 
+import com.google.gson.Gson;
 import com.tqhy.client.config.Constants;
+import com.tqhy.client.models.entity.Case;
+import com.tqhy.client.models.entity.OriginData;
 import com.tqhy.client.utils.FileUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.tqhy.client.utils.FileUtils.isDcmFile;
@@ -28,14 +28,14 @@ import static com.tqhy.client.utils.FileUtils.transToJpg;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor(staticName = "with")
-public class UploadWorkerTask extends Task {
+public class DcmTransWorkerTask extends Task {
 
     public static final String PROGRESS_MSG_ERROR = "error";
     public static final String PROGRESS_MSG_COMPLETE = "complete";
     public static final String PROGRESS_MSG_UPLOAD = "upload";
     public static final String PROGRESS_MSG_COLLECT = "collect";
 
-    Logger logger = LoggerFactory.getLogger(UploadWorkerTask.class);
+    Logger logger = LoggerFactory.getLogger(DcmTransWorkerTask.class);
     BooleanProperty stopUploadFlag = new SimpleBooleanProperty(false);
 
     @NonNull
@@ -52,11 +52,6 @@ public class UploadWorkerTask extends Task {
     int total2Transform;
 
     /**
-     * 待上传总文件数
-     */
-    int total2Upload;
-
-    /**
      * 上传成功文件数
      */
     AtomicInteger successCount;
@@ -70,20 +65,21 @@ public class UploadWorkerTask extends Task {
      * 本次上传任务信息记录文件
      */
     File uploadInfoFile;
-    private HashMap<File, String> uploadImgFileMap;
+    private List<Case> originCases;
     private File jpgDir;
 
     @Override
     protected Object call() throws Exception {
         logger.info("start upload task...");
 
-        prepareTask();
-        String uploadMsg = PROGRESS_MSG_COMPLETE + ";" + successCount.get() + ";" + failCount.get();
+        List<Case> cases = prepareTask();
+        String caseJson = new Gson().toJson(cases);
+        String uploadMsg = PROGRESS_MSG_COMPLETE + ";" + caseJson;
         updateMessage(uploadMsg);
         return null;
     }
 
-    private boolean prepareTask() {
+    private List<Case> prepareTask() {
         successCount = new AtomicInteger(0);
         failCount = new AtomicInteger(0);
         uploadInfoFile = FileUtils.getLocalFile(localDataPath, batchNumber + ".txt");
@@ -93,29 +89,12 @@ public class UploadWorkerTask extends Task {
         }
 
         HashMap<File, String> tempTotalFile = collectAll(dirToUpload);
-        ArrayList<String> invalidDirPaths = new ArrayList<>();
-        tempTotalFile.forEach((file, caseName) -> {
-            if (Constants.CASE_NAME_INVALID.equals(caseName)) {
-                invalidDirPaths.add(file.getAbsolutePath());
-                FileUtils.writeFile(uploadInfoFile,
-                                    file.getAbsolutePath(),
-                                    builder -> builder.append(Constants.NEW_LINE),
-                                    true,
-                                    false);
-            }
-        });
-        if (invalidDirPaths.size() > 0) {
-            updateMessage(PROGRESS_MSG_COLLECT + ";invalid;" + invalidDirPaths.size());
-            return false;
-        }
-
 
         total2Transform = tempTotalFile.values().size();
-        uploadImgFileMap = transAllToJpg(tempTotalFile);
+        originCases = transAllToJpg(tempTotalFile);
 
-        total2Upload = uploadImgFileMap.values().size();
         stopUploadFlag.setValue(false);
-        return true;
+        return originCases;
     }
 
 
@@ -160,7 +139,7 @@ public class UploadWorkerTask extends Task {
      * @return
      */
     private boolean filesFilter(AtomicInteger completeCount, AtomicInteger maxCount, File file) {
-        boolean fileValid = isDcmFile(file) || FileUtils.isJpgFile(file);
+        boolean fileValid = isDcmFile(file);
         updateCollectAllStatus(completeCount, maxCount);
         return fileValid;
     }
@@ -187,42 +166,51 @@ public class UploadWorkerTask extends Task {
      * @param originFiles
      * @return
      */
-    private HashMap<File, String> transAllToJpg(HashMap<File, String> originFiles) {
+    private List<Case> transAllToJpg(HashMap<File, String> originFiles) {
         AtomicInteger completeCount = new AtomicInteger(0);
-        HashMap<File, String> jpgFileMap = originFiles.entrySet()
-                                                      .stream()
-                                                      .collect(HashMap::new,
-                                                               (map, entry) -> {
-                                                                   if (shouldStop()) {
-                                                                       return;
-                                                                   }
-                                                                   putTransedFile2Map(jpgDir, map, entry);
-                                                                   updateTransImgStatus(completeCount, total2Transform);
-                                                               },
-                                                               HashMap::putAll);
+        ArrayList<Case> cases = new ArrayList<>();
+        HashMap<String, List<OriginData>> caseMap = originFiles.entrySet()
+                                                               .stream()
+                                                               .collect(HashMap::new,
+                                                                        (map, entry) -> {
+                                                                            if (shouldStop()) {
+                                                                                return;
+                                                                            }
+                                                                            putTransedFile2Map(jpgDir, map, entry);
+                                                                            updateTransImgStatus(completeCount,
+                                                                                                 total2Transform);
+                                                                        },
+                                                                        HashMap::putAll);
+        caseMap.forEach((caseId, dataList) -> cases.add(Case.of(caseId, dataList)));
 
-
-        return jpgFileMap;
+        return cases;
     }
 
-    private void putTransedFile2Map(File jpgDir, HashMap<File, String> map, Map.Entry<File, String> entry) {
+    private void putTransedFile2Map(File jpgDir, HashMap<String, List<OriginData>> map, Map.Entry<File, String> entry) {
         File file = entry.getKey();
-        String caseName = entry.getValue();
-        File jpgCaseDir = new File(jpgDir, caseName);
-        boolean add;
-        File file2add;
-        if (isDcmFile(file)) {
-            Optional<File> jpgFileOpt = transToJpg(file, jpgCaseDir);
-            add = jpgFileOpt.isPresent();
-            file2add = add ? jpgFileOpt.get() : null;
-        } else {
-            file2add = new File(jpgCaseDir, file.getName());
-            add = FileUtils.copyFile(file, file2add);
-        }
+        String caseId = entry.getValue();
+        File jpgCaseDir = new File(jpgDir, caseId);
 
-        if (add) {
+        if (!jpgCaseDir.exists()) {
+            jpgCaseDir.mkdirs();
+        }
+        Optional<File> jpgFileOpt = transToJpg(file, jpgCaseDir);
+        if (jpgFileOpt.isPresent()) {
+
+            File file2add = jpgFileOpt.get();
+            OriginData originData = FileUtils.getOriginData(file2add);
+            map.computeIfPresent(caseId, (k, v) -> {
+                v.add(originData);
+                return v;
+            });
+
+            map.computeIfAbsent(caseId, k -> {
+                ArrayList<OriginData> list = new ArrayList<>();
+                list.add(originData);
+                return list;
+            });
+
             successCount.incrementAndGet();
-            map.put(file2add, caseName);
         } else {
             failCount.incrementAndGet();
             FileUtils.appendFile(uploadInfoFile, file.getAbsolutePath(),
@@ -256,7 +244,6 @@ public class UploadWorkerTask extends Task {
      * 初始化数据
      */
     private void initValues() {
-        total2Upload = 0;
         total2Transform = 0;
         successCount.set(0);
         failCount.set(0);
