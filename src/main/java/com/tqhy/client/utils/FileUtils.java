@@ -1,6 +1,6 @@
 package com.tqhy.client.utils;
 
-import com.tqhy.client.config.Constants;
+import com.tqhy.client.models.entity.OriginData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -29,35 +30,18 @@ public class FileUtils {
 
     static Logger logger = LoggerFactory.getLogger(FileUtils.class);
     protected static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
     /**
      * 生成病例名,若为根目录下文件则以文件名为病例名,否则以文件夹名作为病例名
      *
      * @param file
-     * @param rootDir 是否是根目录下图片文件
      * @return
      */
-    public static String generateCaseName(File file, File rootDir) {
+    public static String generateCaseName(File file) {
         File parentFile = file.getParentFile();
-        //logger.info("parent file is {}", parentFile.getName());
-        String caseName;
-        if (parentFile.equals(rootDir)) {
-            String fileFullName = file.getName().toLowerCase();
-            if (fileFullName.endsWith(".dcm") || fileFullName.endsWith(
-                    ".jpg") || fileFullName.endsWith(".jpeg")) {
-                int lastIndex = fileFullName.lastIndexOf(".");
-                caseName = fileFullName.substring(0, lastIndex);
-            } else {
-                caseName = fileFullName;
-            }
-        } else {
-            String absolutePath = parentFile.getAbsolutePath();
-            String rootDirName = rootDir.getName();
-            int beginIndex = absolutePath.indexOf(rootDirName);
-            caseName = absolutePath.substring(beginIndex).replace("\\", "_");
-        }
-        byte[] bytes = caseName.getBytes();
-
-        return bytes.length > 256 ? Constants.CASE_NAME_INVALID : caseName;
+        String parentDirName = parentFile.getName();
+        logger.info("parent file is {}", parentFile.getName());
+        return PrimaryKeyUtil.getMd5(parentDirName);
     }
 
     /**
@@ -75,7 +59,7 @@ public class FileUtils {
                      .filter(file -> filter.test(file))
                      .collect(HashMap::new,
                               (map, file) -> {
-                                  map.put(file, generateCaseName(file, dir));
+                                  map.put(file, generateCaseName(file));
                                   //logger.info("add file map key: {}, value: {}", file.getAbsolutePath(), name);
                               },
                               HashMap::putAll);
@@ -97,7 +81,7 @@ public class FileUtils {
                      .collect(HashMap::new,
                               (map, file) -> {
                                   if (filter.test(file) && !file.getParentFile().equals(rootDir)) {
-                                      map.put(file, generateCaseName(file, rootDir));
+                                      map.put(file, generateCaseName(file));
                                   } else {
                                       map.putAll(getFilesMapInSubDir(file, filter, rootDir));
                                   }
@@ -149,7 +133,10 @@ public class FileUtils {
      * @return
      */
     public static boolean isDcmFile(File fileToJudge) {
-        logger.info("into judge file is dcm...");
+        //logger.info("into judge file is dcm...");
+        if (fileToJudge.isDirectory()) {
+            return false;
+        }
         byte[] bytes = new byte[132];
         try (FileInputStream in = new FileInputStream(fileToJudge)) {
             int len = readAvailable(in, bytes, 0, 132);
@@ -417,9 +404,26 @@ public class FileUtils {
         return collect;
     }
 
-    public static String getFileMD5(InputStream inputStream) {
-        String name = "";
+    public static OriginData getOriginData(File file) {
+
+
         try {
+            String imgId = getFileMD5(file);
+            BufferedImage image = ImageIO.read(file);
+            int imgWidth = image != null ? image.getWidth() : 0;
+            int imgHeight = image != null ? image.getHeight() : 0;
+            String imagePath = file.getAbsolutePath();
+            return OriginData.of(imgId, imgWidth, imgHeight, imagePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getFileMD5(File file) {
+        String name = "";
+        try (InputStream inputStream = new FileInputStream(file)) {
             byte[] bytes = new byte[1024];
             int len = 0;
             MessageDigest messagedigest = MessageDigest.getInstance("MD5");
@@ -427,7 +431,6 @@ public class FileUtils {
                 messagedigest.update(bytes, 0, len);
             }
             name = bufferToHex(messagedigest.digest());
-            inputStream.close();
         } catch (MalformedURLException e) {
         } catch (IOException e) {
         } catch (NoSuchAlgorithmException e) {
