@@ -103,9 +103,6 @@ public class Dcm2JpgUtil {
     private static File genJpgFile(File dcmFile, File jpgDir) {
         try (DicomInputStream iis = new DicomInputStream(dcmFile)) {
 
-            if (!jpgDir.exists()) {
-                jpgDir.mkdirs();
-            }
 
             Attributes attributes = iis.readDataset(-1, Tag.PixelData);
             String instanceNum = attributes.getString(Tag.InstanceNumber);
