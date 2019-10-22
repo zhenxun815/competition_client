@@ -1,10 +1,9 @@
 package com.tqhy.client.models.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Yiheng
@@ -14,15 +13,13 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@RequiredArgsConstructor(staticName = "of")
 public class Case implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NonNull
     private String id;
-
-    private Long seriesDate;
-
-    private Long seriesTime;
-
-    private String part;
+    @NonNull
+    private List<OriginData> originDatas;
 
 }
