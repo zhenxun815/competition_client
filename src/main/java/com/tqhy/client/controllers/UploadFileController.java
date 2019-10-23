@@ -418,9 +418,11 @@ public class UploadFileController {
     @ResponseBody
     public Map<String, String> getOriginA() throws IOException {
         String userName = PropertyUtils.getUserName();
+        String serverIP = PropertyUtils.getProperty("serverIP");
         logger.info("into request originA... {}", caseJson);
         HashMap<String, String> map = new HashMap<>();
         map.put("userName", userName);
+        map.put("serverIP", serverIP);
         map.put("caseJson", caseJson);
         return map;
     }

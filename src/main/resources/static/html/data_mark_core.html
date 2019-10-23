@@ -508,6 +508,7 @@
 	// console.log("TIMESTAMP === TagInitFunc ", new Date().getTime())
 	var caseArr = []
 	var userName = ''
+	var serverIP = ''
 	var currCaseIndex = 0
 	// 配置注入入口
 	TagInitFunc(TagConfig)
@@ -547,8 +548,10 @@
 					//let res = JSON.parse(response)
 					caseArr = JSON.parse(response.caseJson)
 					userName = response.userName
+					serverIP = response.serverIP
 					console.log('case arr: ' + caseArr)
 					console.log('user name: ' + userName)
+					console.log('serverIP: ' + serverIP)
 					networkImagePageData.caseId = caseArr[0].id
 					console.log('case Id: ' + networkImagePageData.caseId)
 					RenderFunc(caseArr[0].originDatas)
