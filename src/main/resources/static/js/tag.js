@@ -1138,8 +1138,8 @@ function initPointCore(imgObj) {
 		}
 	}
 
-	console.log(circle_to_polygon_map)
-	console.log(polygon_id_to_svg_map)
+	//console.log(circle_to_polygon_map)
+	//console.log(polygon_id_to_svg_map)
 }
 
 /**
@@ -1987,7 +1987,10 @@ function change_page_func() {
 function toJumpImageFunc(type) {
 
 	var dir = type;
-
+	console.log(`next click ${JSON.stringify(jsarray[mark_image_index])}`)
+	if (jsarray[mark_image_index].circle_datas.length > 0) {
+		$(".mi-f.mark-index").eq(mark_image_index).addClass("active");
+	}
 	if (dir === 'up') {
 		// 检验不通过 什么也不做
 		// 检验通过 改变 mark_image_index 的值
@@ -1999,7 +2002,10 @@ function toJumpImageFunc(type) {
 			// alert("超过最小页数")
 			return;
 		} else {
+
 			mark_image_index--;
+
+
 		}
 	} else if (dir === 'down') {
 		var _check = function _check() {
@@ -2478,7 +2484,7 @@ function saveSubmitFunc(ini) {
 	var re = {
 		caseId: caseId,
 		// overTag:x,
-		tagJson: tagJson
+		answer: tagJson
 	};
 
 	// 现在不需要了
@@ -2518,7 +2524,8 @@ function saveSubmitAllFunc() {
 	// 装载数据
 	var re = {
 		caseId: caseId,
-		tagJson: tagJson
+		answer: tagJson,
+		zjCode: userName
 	};
 	// 现在不需要了
 	circleDatasMarkedNumber = calcCircleDatasMarkedFunc();

@@ -86,6 +86,7 @@ function saveSubmitCoreFunc(re, ini) {
 	// console.log(re)
 
 	function type_check_func(typeId, typeName) {
+		console.log(`type id is ${typeId}, type name is ${typeName}`)
 		if (typeId !== "" && typeName !== "" && typeId !== null && typeName !== null) {
 			return true
 		} else {
@@ -133,7 +134,27 @@ function saveSubmitCoreFunc(re, ini) {
  * @returns {Void}
  */
 function saveSubmitAllCoreFunc(re) {
-	console.log(re)
+	console.log(`re is ${JSON.stringify(re)}`)
+	$.ajax({
+		url: "http://192.168.1.233:8887/answer/save", //请求的url地址
+		dataType: "json", //返回格式为json
+		async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+		data: JSON.stringify(re), //参数值
+		type: "POST", //请求方式
+		beforeSend: function () {
+			//请求前的处理
+		},
+		success: function (res) {
+			//请求成功时处理
+			console.log(`res is ${res}`)
+		},
+		complete: function () {
+			//请求完成的处理
+		},
+		error: function () {
+			//请求出错处理
+		}
+	});
 }
 
 /*
@@ -163,14 +184,6 @@ function layuiInitFunc(lu) {
 				calcSynchronizationFunc()
 			}
 		});*/
-
-		$("#save_synchronization").click(function () {
-			console.log('save_synchronization....')
-			calcSynchronizationFunc()
-			saveSubmitAllFunc()
-
-			//layui.layer.closeAll('page')
-		})
 	}
 
 	// 同步到标注

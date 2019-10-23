@@ -601,9 +601,8 @@ function MOUNTED_ONCE() {
 	if (my_color) {
 		my_color.value = baseColor.replace(/#/g, "");
 	}
-	// 重置
 
-	// 张/例手动跳转
+	// 张手动跳转
 	$("#choose_manual_button").click(function () {
 		var check = function (number) {
 			if (number > mark_image_length - 1) {
@@ -820,6 +819,9 @@ function tips_message_func(string) {
  * @returns {Void}
  */
 function flz_jump_func(page) {
+	if (jsarray[mark_image_index].circle_datas.length > 0) {
+		$(".mi-f.mark-index").eq(mark_image_index).addClass("active");
+	}
 	mark_image_index = page
 	change_page_func()
 }
@@ -1307,7 +1309,7 @@ function calcSynchronizationFunc() {
 	 * @param {Array} arr
 	 * @returns {Void}
 	 */
-	function makeDOMFunc(arr) {
+	/*function makeDOMFunc(arr) {
 		var html = ""
 		arr.forEach(function (item) {
 			if (item.typeId === un) {
@@ -1317,7 +1319,7 @@ function calcSynchronizationFunc() {
 			}
 		})
 		$("#layer_synchronization .synchronization-type-show").html(html)
-	}
+	}*/
 
 	// 类型数组
 	var type = []

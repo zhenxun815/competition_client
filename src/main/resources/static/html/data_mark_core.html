@@ -437,7 +437,7 @@
 	// 标注配置项
 	// 不在里面的就是暂时不可配置的
 	var TagConfig = {
-		url_dicomImagePath: "../", // 图片 base 路径
+		url_dicomImagePath: 0, // 图片 base 路径
 		left_margin: 0, // 页面区距离屏幕左侧的距离
 		leftX: null, // 标注区距离左侧的距离 | 会根据 left_margin markTreeId 计算 所以是 null
 		topY: 0, // 标注区距离上部的距离
@@ -506,7 +506,9 @@
 	}
 
 	// console.log("TIMESTAMP === TagInitFunc ", new Date().getTime())
-
+	var caseArr = []
+	var userName = ''
+	var currCaseIndex = 0
 	// 配置注入入口
 	TagInitFunc(TagConfig)
 
@@ -516,6 +518,20 @@
 		// 渲染入口
 		// 变更样本时需要重新渲染
 		getOriginA()
+
+		$("#save_synchronization").click(function () {
+			console.log('save_synchronization....')
+			calcSynchronizationFunc()
+			saveSubmitAllFunc()
+			currCaseIndex += 1
+			console.log(`$total case num ${caseArr.length}, currCaseIndex is ${currCaseIndex}`)
+			if (currCaseIndex >= caseArr.length) {
+				tips_message_func('已经完成最后一题..')
+			} else {
+				networkImagePageData.caseId = caseArr[currCaseIndex].id
+				RenderFunc(caseArr[currCaseIndex].originDatas)
+			}
+		})
 	})
 
 	function getOriginA() {
@@ -525,12 +541,20 @@
 			async: true,
 			success: function (response) {
 				if (response) {
-					console.log(response)
-					RenderFunc(JSON.parse(response))
+					console.log('response is: ' + JSON.stringify(response))
+					//let res = JSON.parse(response)
+					caseArr = JSON.parse(response.caseJson)
+					userName = response.userName
+					console.log('case arr: ' + caseArr)
+					console.log('user name: ' + userName)
+					networkImagePageData.caseId = caseArr[0].id
+					console.log('case Id: ' + networkImagePageData.caseId)
+					RenderFunc(caseArr[0].originDatas)
 				}
 			}
 		})
 	}
+
 
 	// setTimeout(function () {
 	//   layer.alert('...', {
