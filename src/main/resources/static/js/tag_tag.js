@@ -136,8 +136,10 @@ function saveSubmitCoreFunc(re, ini) {
 function saveSubmitAllCoreFunc(re) {
 	console.log(`re is ${JSON.stringify(re)}`)
 	$.ajax({
-		url: "http://192.168.1.233:8887/answer/save", //请求的url地址
+		//url: "http://192.168.1.233:8887/answer/save", //请求的url地址
+		url: "http://" + serverIP + "/answer/save", //请求的url地址
 		dataType: "json", //返回格式为json
+		contentType: 'application/json',
 		async: true, //请求是否异步，默认为异步，这也是ajax重要特性
 		data: JSON.stringify(re), //参数值
 		type: "POST", //请求方式
@@ -146,7 +148,7 @@ function saveSubmitAllCoreFunc(re) {
 		},
 		success: function (res) {
 			//请求成功时处理
-			console.log(`res is ${res}`)
+			console.log(`res is ${JSON.stringify(res)}`)
 		},
 		complete: function () {
 			//请求完成的处理
