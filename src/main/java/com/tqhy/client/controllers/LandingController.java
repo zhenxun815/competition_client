@@ -5,6 +5,7 @@ import com.tqhy.client.models.msg.local.LandingMsg;
 import com.tqhy.client.models.msg.local.VerifyMsg;
 import com.tqhy.client.network.Network;
 import com.tqhy.client.utils.NetworkUtils;
+import com.tqhy.client.utils.PropertyUtils;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -93,7 +94,7 @@ public class LandingController extends BaseWebviewController {
         String userPwd = landingMsg.getUserPwd().trim();
 
         logger.info("request username: {}, password: {}", userName, userPwd);
-
+        PropertyUtils.setUserName(userName);
        /* Network.getAicApi()
                .landing(userName, userPwd)
                .observeOn(Schedulers.io())
