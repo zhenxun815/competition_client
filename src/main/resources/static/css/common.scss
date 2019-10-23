@@ -1,0 +1,552 @@
+@import 'mixin';
+
+// @media(min-width:1200px){
+//     .container{
+//         max-width: 1200px;
+//     }
+// }
+html,
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  height: 100vh;
+}
+
+// progress::-webkit-progress-bar {
+//   background-color: #41B2E1;
+//   border-color: #7D7D7D;
+// }
+
+progress {
+  //   width: 168px;
+  height: 5px;
+  color: #f00;
+  //   background: #fff;
+  border-radius: 5px;
+  border: 0px solid #D0D0D0;
+}
+
+/* 表示总长度背景色 */
+progress::-webkit-progress-bar {
+  background-color: #EDEBEC;
+  border-radius: 5px;
+}
+
+/* 表示已完成进度背景色 */
+progress::-webkit-progress-value {
+  background: #41B2E1;
+  //   border-radius: 0.2rem;
+}
+
+html {
+  height: 100vh;
+  overflow-y: hidden;
+
+  body {
+    font-family: 'Microsoft YaHei';
+    width: 100vw;
+    height: 100vh;
+
+    background: #f5f5f5;
+  }
+}
+
+a {
+  color: inherit;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: inherit;
+    text-decoration: none !important;
+  }
+}
+
+button {
+  //消除button的默认样式
+  margin: 0;
+  padding: 0;
+  border: 1px solid transparent; //自定义边框
+  outline: none; //消除默认点击蓝色边框效果
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #999;
+  font-size: 12px;
+}
+
+// 滚动条
+div::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+  transform: translateX(10px);
+}
+
+div::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: #D8D8D8;
+  border-radius: 10px;
+  transform: translateX(10px);
+}
+
+div::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+  border: 1px solid #D0D0D0;
+  transform: translateX(10px);
+}
+
+select {
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Microsoft YaHei'
+}
+
+// layui 样式修改
+.layui-form-label {
+  width: 114px;
+  color: #7d7d7d;
+  margin-bottom: 0;
+}
+
+.layui-form-item {
+  margin-bottom: 5px;
+}
+
+.layui-form-item {
+  .layui-input-block {
+    button.layui-btn.bb {
+      &:nth-of-type(1) {
+        margin-right: 30px;
+      }
+
+      &:nth-of-type(2) {
+        margin-left: 30px;
+      }
+    }
+  }
+}
+
+.layui-table th {
+  font-size: 12px;
+}
+
+.layui-table td {
+  font-size: 12px;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+  border-color: #FE6225 !important;
+  background-color: #FE6225;
+}
+
+.layui-form-radio > i:hover,
+.layui-form-radioed > i {
+  color: #FE6225;
+}
+
+// .layui-btn{
+//   background-color: #FE6225;
+// }
+// .layui-btn-primary{
+//   background-color: #fff;
+//   &:hover{
+//     border-color: #FE6225;
+//   }
+// }
+
+.layui-input-block {
+  margin-left: 120px;
+}
+
+.layui-laypage-limits {
+  select {
+    // padding: 0;
+    // line-height: 1;
+    // font-size: 12px;
+    // font-weight: 400;
+
+    display: none;
+  }
+}
+
+.layui-table-view select[lay-ignore] {
+  display: none;
+}
+
+.layui-btn,
+.layui-btn-primary {
+  background-color: #929EB0;
+  border: 1px solid #929EB0;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #fff;
+  padding: 20px;
+  line-height: 0;
+  height: auto;
+
+  &:hover {
+    background-color: #F36E39;
+    border-color: #F36E39;
+    color: #fff;
+  }
+}
+
+// 带取消/保存的表单专用
+.layui-btn-primary + .layui-btn {
+  margin-left: 55px;
+}
+
+.layui-input,
+.layui-textarea {
+  border-radius: 5px;
+  border-color: #929EB0;
+}
+
+body {
+  .layui-layer-setwin {
+    .layui-layer-close2 {
+      right: -10px;
+      top: -10px;
+    }
+  }
+}
+
+.layui-table-box {
+  overflow: visible;
+}
+
+.layui-table-header {
+  overflow: visible;
+  padding-left: 2px;
+}
+
+.layui-table-body {
+  padding-right: 2px;
+  padding-left: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  overflow-x: hidden;
+}
+
+.layui-table-view,
+.layui-table-header {
+  border-width: 0;
+}
+
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.layui-table {
+  .layui-table-view {
+    margin-top: 0;
+  }
+
+  tbody {
+    tr {
+      transition: outline 0s;
+      outline: 1px solid transparent;
+
+      // border-radius: 5px;
+      &:hover {
+        background-color: #fff;
+      }
+
+      &.layui-table-hover {
+        outline: 1px solid #F45D57;
+
+        td {
+          color: #333333;
+        }
+      }
+    }
+  }
+
+  tr {
+    th {
+      color: #7D7D7D;
+    }
+
+    td {
+      color: #9f9f9f;
+    }
+
+    // border:1px solid #FE6225;
+  }
+
+  .layui-table-hover {
+    background-color: #fff;
+    // &:hover{
+    // border-color: #FE6225;
+    // }
+  }
+}
+
+// 分页
+.layui-table-page {
+  border-top: 0;
+  text-align: center;
+
+  .layui-laypage {
+
+    a,
+    span {
+      height: 29px;
+      line-height: 29px;
+    }
+
+    a,
+    span.layui-laypage-curr {
+      margin-right: 5px;
+      color: #999999;
+      border: 1px solid #D0D0D0;
+      border-radius: 5px;
+
+      &:hover {
+        border-color: #FE6225;
+      }
+
+      &.layui-disabled {
+        &:hover {
+          border-color: #D0D0D0;
+        }
+      }
+    }
+
+    span.layui-laypage-curr {
+      border-color: #FE6225;
+
+      em {
+        color: #FE6225;
+      }
+    }
+
+    .layui-laypage-curr {
+      em {
+        color: #999999;
+      }
+    }
+
+    button {
+      line-height: 24px;
+
+      &:hover {
+        border-color: #FE6225;
+        color: #FE6225;
+      }
+    }
+  }
+}
+
+.layui-laypage {
+  .layui-laypage-curr {
+    .layui-laypage-em {
+      background-color: transparent;
+    }
+  }
+
+  a:hover {
+    color: #FE6225;
+  }
+}
+
+.layui-form-select {
+  dl {
+    dd.layui-this {
+      background-color: #F36E39;
+    }
+  }
+}
+
+.layui-input:hover,
+.layui-textarea:hover,
+.layui-input:focus,
+.layui-textarea:focus {
+  border-color: #F36E39 !important;
+}
+
+.layui-form-radio > i {
+  font-size: 16px;
+}
+
+.layui-input-block {
+  &.no-label {
+    margin-left: 0;
+  }
+}
+
+.layui-form-checkbox[lay-skin=primary]:hover i {
+  border-color: #F36E39 !important;
+}
+
+// layer 需要加 iframe 选择器加权重
+.layui-layer .layui-layer-title {
+  background-color: transparent;
+  border: 0;
+  text-align: center;
+  font-size: 16px;
+  height: auto;
+  line-height: 1;
+  padding: 30px 0;
+}
+
+.layui-layer-setwin .layui-layer-close {
+
+  &.layui-layer-close1,
+  &.layui-layer-close2 {
+    background-position: center;
+    background-color: #F36E39;
+    background-image: $icon_021;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+
+    &:hover {
+      background-position: center;
+    }
+  }
+}
+
+.layui-table-grid-down {
+  display: none;
+}
+
+// bs 样式修改
+.checkbox {
+  margin: 0;
+}
+
+label {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.dropdown {
+  .dropdown-toggle {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+.dropdown-menu {
+  min-width: 100px;
+}
+
+// ztree
+.ztree li span.button.add {
+  margin-left: 2px;
+  margin-right: -1px;
+  background-position: -144px 0;
+  vertical-align: top;
+  *vertical-align: middle
+}
+
+
+// iview
+.ivu-slider-button {
+  border-color: #FE6225;
+
+  &:hover {
+    border-color: #FE6225;
+  }
+}
+
+.layui-table-tool {
+  border-width: 0;
+}
+
+.layui-table-tips-c:before {
+  top: -3px;
+  right: 1px;
+}
+
+.layui-nav-child {
+  margin: 0;
+}
+
+.layui-carousel {
+  div {
+    div {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.layui-tab {
+  height: calc(100% - 20px);
+  padding: 0 10px;
+}
+
+.layui-tab-title {
+  height: 30px;
+
+  .layui-this {
+    &:after {
+      height: 30px;
+    }
+  }
+
+  li {
+    font-size: 12px;
+    padding: 0 10px;
+    line-height: 29px;
+    min-width: auto;
+  }
+}
+
+.layui-tab-content {
+  height: calc(100% - 40px);
+  padding: 10px 0;
+  position: relative;
+}
+
+.layui-tab-bar {
+  height: 30px;
+}
+
+.layui-tab-bar .layui-icon,
+.layui-tab-more .layui-tab-bar .layui-icon {
+  top: -5px;
+}
+
+.layui-form-checkbox,
+.layui-form-checkbox[lay-skin=primary] {
+  span {
+    font-size: 12px;
+    line-height: 14px;
+  }
+}
