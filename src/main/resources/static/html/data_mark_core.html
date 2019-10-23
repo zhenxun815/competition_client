@@ -521,14 +521,16 @@
 
 		$("#save_synchronization").click(function () {
 			console.log('save_synchronization....')
-			calcSynchronizationFunc()
-			saveSubmitAllFunc()
 			currCaseIndex += 1
 			console.log(`$total case num ${caseArr.length}, currCaseIndex is ${currCaseIndex}`)
 			if (currCaseIndex >= caseArr.length) {
 				tips_message_func('已经完成最后一题..')
+				currCaseIndex--
 			} else {
 				networkImagePageData.caseId = caseArr[currCaseIndex].id
+				calcSynchronizationFunc()
+				saveSubmitAllFunc()
+				console.log(`networkImagePageData.caseId is ${networkImagePageData.caseId}`)
 				RenderFunc(caseArr[currCaseIndex].originDatas)
 			}
 		})
