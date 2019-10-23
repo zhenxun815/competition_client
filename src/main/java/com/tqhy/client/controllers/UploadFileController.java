@@ -7,6 +7,7 @@ import com.tqhy.client.network.Network;
 import com.tqhy.client.task.DcmTransWorkerTask;
 import com.tqhy.client.utils.FXMLUtils;
 import com.tqhy.client.utils.FileUtils;
+import com.tqhy.client.utils.PropertyUtils;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,12 +32,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -144,6 +148,8 @@ public class UploadFileController {
     LandingController landingController;
 
     private DcmTransWorkerTask workerTask;
+
+    private String caseJson;
 
     private VBox[] panels;
 
@@ -255,7 +261,7 @@ public class UploadFileController {
                                   showPanel(panel_complete.getId());
                                   String completeMsg = "数据导入完毕!";
                                   text_success_desc.setText(completeMsg);
-                                  String caseJson = msgSplit[1];
+                                  caseJson = msgSplit[1];
                                   logger.info("case json is {}", caseJson);
                                   break;
                               case DcmTransWorkerTask.PROGRESS_MSG_TRANS:
@@ -410,24 +416,63 @@ public class UploadFileController {
 
     @GetMapping("/originA")
     @ResponseBody
-    public String getOriginA() throws IOException {
-        String orgina = "[" +
-                "    {" +
-                "        \"circle_datas\": []," +
-                "        \"imgWidth\":512," +
-                "        \"imgID\":\"1c7071ebf4c940dda9cf14a296e025b9\"," +
-                "        \"imagePath\":\"img/image_001.jpg\"," +
-                "        \"imgHeight\":512" +
-                "    }," +
-                "    {" +
-                "        \"circle_datas\": []," +
-                "        \"imgWidth\":512," +
-                "        \"imgID\":\"2c9ca38636294637b231d431596c74a4\"," +
-                "        \"imagePath\":\"img/image_002.jpg\"," +
-                "        \"imgHeight\":512" +
-                "    }" +
-                "]";
+    public Map<String, String> getOriginA() throws IOException {
+        String userName = PropertyUtils.getUserName();
+        logger.info("into request originA... {}", caseJson);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userName", userName);
+        map.put("caseJson", caseJson);
+        return map;
+    }
 
-        return orgina;
+    @GetMapping(value = "/viewImg")
+    public void viewImg(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            res.reset();
+            // PrintWriter out = res.getWriter();
+            OutputStream out = res.getOutputStream();
+            res.setHeader("Content-Type", "image/jpeg");
+            String path = req.getParameter("path");
+            if (path.indexOf("group") != -1) {
+
+                InputStream in = new FileInputStream(path);
+                int len;
+                byte[] buf = new byte[1024];
+                while ((len = in.read(buf)) != -1) {
+                    out.write(buf, 0, len);
+                }
+                out.flush();
+                // 如果没有下面两行，可能出现getOutputStream() has already been called for this response的异常
+                out.close();
+                in.close();
+            } else {
+                try {
+                    path.replaceAll("\\\\", "/");
+                    System.out.println("img path is: " + path);
+                    File file = new File(path);
+                    if (file != null) {
+                        FileInputStream fis = new FileInputStream(file);
+                        @SuppressWarnings("resource")
+                        BufferedInputStream buff = new BufferedInputStream(fis);
+                        byte[] b = new byte[1024];
+                        long k = 0;
+                        // 开始循环下载
+                        while (k < file.length()) {
+                            int j = buff.read(b, 0, 1024);
+                            k += j;
+                            // 将b中的数据写到客户端的内存
+                            out.write(b, 0, j);
+                        }
+                    }
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            logger.error("加载图片失败！");
+            e.printStackTrace();
+        }
     }
 }
