@@ -70,10 +70,12 @@ public class DcmTransWorkerTask extends Task {
 
     private List<Case> prepareTask() {
         uploadInfoFile = FileUtils.getLocalFile(localDataPath, batchNumber + ".txt");
-        jpgDir = new File(dirToUpload, Constants.PATH_TEMP_JPG);
+        String appPath = FileUtils.getAppPath();
+        jpgDir = new File(appPath, Constants.PATH_TEMP_JPG);
         if (jpgDir.exists()) {
             FileUtils.deleteDir(jpgDir);
         }
+        jpgDir.mkdirs();
 
         originCases = collectAll(dirToUpload);
         return originCases;
