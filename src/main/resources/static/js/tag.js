@@ -1988,9 +1988,9 @@ function toJumpImageFunc(type) {
 
 	var dir = type;
 	console.log(`next click ${JSON.stringify(jsarray[mark_image_index])}`)
-	if (jsarray[mark_image_index].circle_datas.length > 0) {
-		$(".mi-f.mark-index").eq(mark_image_index).addClass("active");
-	}
+	/*	if (jsarray[mark_image_index].circle_datas.length > 0) {
+			$(".mi-f.mark-index").eq(mark_image_index).addClass("active");
+		}*/
 	if (dir === 'up') {
 		// 检验不通过 什么也不做
 		// 检验通过 改变 mark_image_index 的值
@@ -2487,9 +2487,13 @@ function saveSubmitFunc(ini) {
 		answer: tagJson
 	};
 
-	// 现在不需要了
-	circleDatasMarkedNumber = calcCircleDatasMarkedFunc();
-
+	var res = {
+		data: {
+			id: copyed_obj[mark_image_index].imgID,
+			tagFlag: (copyed_obj[mark_image_index].circle_datas.length > 0) ? 1 : 0,
+		}
+	}
+	changeMarkStatusWhenSaveFunc(res)
 	// 在下个方法提交
 	saveSubmitCoreFunc(re, ini)
 }
@@ -2524,11 +2528,13 @@ function saveSubmitAllFunc() {
 	// 装载数据
 	var re = {
 		caseId: caseId,
+		orderVal: currCaseIndex,
+		caseName: currCaseName,
 		answer: tagJson,
 		zjCode: userName
 	};
 	// 现在不需要了
-	circleDatasMarkedNumber = calcCircleDatasMarkedFunc();
+	//circleDatasMarkedNumber = calcCircleDatasMarkedFunc();
 	// 在下个方法提交
 	saveSubmitAllCoreFunc(re)
 	// console.log(copyed_obj)
@@ -2987,6 +2993,7 @@ function changeTypePolygon() {
 function clearMarkOneFunc() {
 	svgEmptyFunc()
 	circleDatasEmptyFunc(jsarray[mark_image_index])
+
 }
 
 /**

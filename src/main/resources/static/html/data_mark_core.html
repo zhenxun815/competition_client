@@ -510,6 +510,7 @@
 	var userName = ''
 	var serverIP = ''
 	var currCaseIndex = 0
+	var currCaseName = ''
 	// 配置注入入口
 	TagInitFunc(TagConfig)
 
@@ -520,6 +521,7 @@
 		// 变更样本时需要重新渲染
 		getOriginA()
 
+
 		$("#save_synchronization").click(function () {
 			console.log('save_synchronization....')
 			currCaseIndex += 1
@@ -527,7 +529,10 @@
 			if (currCaseIndex >= caseArr.length) {
 				tips_message_func('已经完成最后一题..')
 				currCaseIndex--
+				noteStop()
 			} else {
+				console.log(`currCaseName is ${currCaseName}`)
+				currCaseName = caseArr[currCaseIndex].caseName
 				networkImagePageData.caseId = caseArr[currCaseIndex].id
 				calcSynchronizationFunc()
 				saveSubmitAllFunc()
@@ -552,14 +557,77 @@
 					console.log('case arr: ' + caseArr)
 					console.log('user name: ' + userName)
 					console.log('serverIP: ' + serverIP)
-					networkImagePageData.caseId = caseArr[0].id
+					currCaseIndex = 0
+					networkImagePageData.caseId = caseArr[currCaseIndex].id
+					currCaseName = caseArr[currCaseIndex].caseName
 					console.log('case Id: ' + networkImagePageData.caseId)
 					RenderFunc(caseArr[0].originDatas)
+					noteStart()
 				}
 			}
 		})
 	}
 
+
+	function noteStart() {
+		let datas = {code: userName}
+		$.ajax({
+			//url: "http://192.168.1.233:8887/answer/save", //请求的url地址
+			url: "http://" + serverIP + "/answer/start", //请求的url地址
+			dataType: "json", //返回格式为json
+			contentType: 'application/json',
+			async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+			data: JSON.stringify(datas), //参数值
+			type: "POST", //请求方式
+			beforeSend: function () {
+				//请求前的处理
+			},
+			success: function (res) {
+				//请求成功时处理
+				console.log(`res is ${JSON.stringify(res)}`)
+			},
+			complete: function () {
+				//请求完成的处理
+			},
+			error: function () {
+				//请求出错处理
+			}
+		});
+	}
+
+	function noteStop() {
+		let datas = {code: userName}
+		$.ajax({
+			//url: "http://192.168.1.233:8887/answer/save", //请求的url地址
+			url: "http://" + serverIP + "/answer/stop", //请求的url地址
+			dataType: "json", //返回格式为json
+			contentType: 'application/json',
+			async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+			data: JSON.stringify(datas), //参数值
+			type: "POST", //请求方式
+			beforeSend: function () {
+				//请求前的处理
+			},
+			success: function (res) {
+				//请求成功时处理
+				console.log(`res is ${JSON.stringify(res)}`)
+				layer.open({
+					title: " ",
+					area: ['300px', '200px'],
+					content: '<center>答题用时: ' + res.useTime + '</center>',
+					btn: [],
+					closeBtn: 0,
+					shade: [0.8]
+				});
+			},
+			complete: function () {
+				//请求完成的处理
+			},
+			error: function () {
+				//请求出错处理
+			}
+		});
+	}
 
 	// setTimeout(function () {
 	//   layer.alert('...', {

@@ -101,6 +101,7 @@ function saveSubmitCoreFunc(re, ini) {
 		changeTMCObjectCountFunc(deleteTypeId, deleteTypeName, addOrSubNumber)
 	}
 	// }
+	circleDatasMarkedNumber = calcCircleDatasMarkedFunc()
 
 	return
 

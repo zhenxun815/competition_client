@@ -819,9 +819,9 @@ function tips_message_func(string) {
  * @returns {Void}
  */
 function flz_jump_func(page) {
-	if (jsarray[mark_image_index].circle_datas.length > 0) {
+	/*if (jsarray[mark_image_index].circle_datas.length > 0) {
 		$(".mi-f.mark-index").eq(mark_image_index).addClass("active");
-	}
+	}*/
 	mark_image_index = page
 	change_page_func()
 }
