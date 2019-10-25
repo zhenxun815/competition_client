@@ -123,7 +123,7 @@ public class DcmTransWorkerTask extends Task {
                     originDatas.add(originData);
                 }
             }
-            cases.add(Case.of(caseId, originDatas));
+            cases.add(Case.of(caseId, caseDirName, originDatas));
         }
 
 
