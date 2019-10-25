@@ -19,6 +19,10 @@ public class Case implements Serializable {
 
     @NonNull
     private String id;
+
+    @NonNull
+    private String caseName;
+
     @NonNull
     private List<OriginData> originDatas;
 
