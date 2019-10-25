@@ -435,42 +435,31 @@ public class UploadFileController {
             OutputStream out = res.getOutputStream();
             res.setHeader("Content-Type", "image/jpeg");
             String path = req.getParameter("path");
-            if (path.indexOf("group") != -1) {
-
-                InputStream in = new FileInputStream(path);
-                int len;
-                byte[] buf = new byte[1024];
-                while ((len = in.read(buf)) != -1) {
-                    out.write(buf, 0, len);
+            logger.info("img rel path is: " + path);
+            path = path.replaceAll("\\\\", "/");
+            String appPath = FileUtils.getAppPath();
+            String jpgPath = appPath + "/" + path;
+            logger.info("img abs path is: " + jpgPath);
+            try {
+                File file = new File(jpgPath);
+                if (file != null) {
+                    FileInputStream fis = new FileInputStream(file);
+                    @SuppressWarnings("resource")
+                    BufferedInputStream buff = new BufferedInputStream(fis);
+                    byte[] b = new byte[1024];
+                    long k = 0;
+                    // 开始循环下载
+                    while (k < file.length()) {
+                        int j = buff.read(b, 0, 1024);
+                        k += j;
+                        // 将b中的数据写到客户端的内存
+                        out.write(b, 0, j);
+                    }
                 }
                 out.flush();
-                // 如果没有下面两行，可能出现getOutputStream() has already been called for this response的异常
                 out.close();
-                in.close();
-            } else {
-                try {
-                    path.replaceAll("\\\\", "/");
-                    System.out.println("img path is: " + path);
-                    File file = new File(path);
-                    if (file != null) {
-                        FileInputStream fis = new FileInputStream(file);
-                        @SuppressWarnings("resource")
-                        BufferedInputStream buff = new BufferedInputStream(fis);
-                        byte[] b = new byte[1024];
-                        long k = 0;
-                        // 开始循环下载
-                        while (k < file.length()) {
-                            int j = buff.read(b, 0, 1024);
-                            k += j;
-                            // 将b中的数据写到客户端的内存
-                            out.write(b, 0, j);
-                        }
-                    }
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } catch (Exception e) {
             logger.error("加载图片失败！");

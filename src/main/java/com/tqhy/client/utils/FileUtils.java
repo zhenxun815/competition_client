@@ -413,9 +413,13 @@ public class FileUtils {
 
     public static OriginData getOriginData(File file) {
 
-        String imagePath = file.getAbsolutePath();
-        logger.info("start get origin data {}", imagePath);
+        String imageAbsPath = file.getAbsolutePath().replaceAll("\\\\", "/");
+        logger.info("start get origin data {}", imageAbsPath);
 
+        String appPath = FileUtils.getAppPath();
+        String imageRelPath = imageAbsPath.replace(appPath, "");
+        //logger.info("appPath is {}", appPath);
+        //logger.info("imageRelPath is {}", imageRelPath);
         String imgId = getFileMD5(file);
         logger.info("get imgId {}", imgId);
         try {
@@ -425,7 +429,7 @@ public class FileUtils {
             int imgWidth = reader.getWidth(0);
             int imgHeight = reader.getHeight(0);
             logger.info("width {}, height {}", imgWidth, imgHeight);
-            return OriginData.of(imgId, imgWidth, imgHeight, imagePath);
+            return OriginData.of(imgId, imgWidth, imgHeight, imageRelPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
