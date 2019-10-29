@@ -40,7 +40,7 @@ public class ClientPreloader extends Preloader {
 
 
     public static void main(String[] args) {
-        String appId = "TQHY-AIC-CLIENT";
+        String appId = "TQHY-COMPETITION-CLIENT-HUMAN";
         boolean alreadyRunning;
         try {
             JUnique.acquireLock(appId, message -> {
