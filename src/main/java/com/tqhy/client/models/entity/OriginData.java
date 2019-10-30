@@ -24,10 +24,10 @@ public class OriginData {
     private String imgId;
 
     @NonNull
-    private int imgWidth;
+    private Integer imgWidth;
 
     @NonNull
-    private int imgHeight;
+    private Integer imgHeight;
 
     @NonNull
     private String imagePath;
