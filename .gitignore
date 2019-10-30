@@ -4,6 +4,7 @@
 
 # generated files
 out/
+logs/
 classes/
 gen/
 build/
