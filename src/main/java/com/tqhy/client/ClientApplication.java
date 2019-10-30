@@ -1,14 +1,11 @@
 package com.tqhy.client;
 
-import com.tqhy.client.jna.GlobalKeyListener;
 import com.tqhy.client.utils.FXMLUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
 
 /**
  * @author Yiheng
@@ -140,18 +136,18 @@ public class ClientApplication extends Application {
     public void init() throws Exception {
         super.init();
         springContext = SpringApplication.run(ClientApplication.class);
-        java.util.logging.Logger globalScreenLogger = java.util.logging.Logger.getLogger(
+        /*java.util.logging.Logger globalScreenLogger = java.util.logging.Logger.getLogger(
                 GlobalScreen.class.getPackage().getName());
-        globalScreenLogger.setLevel(Level.OFF);
+        globalScreenLogger.setLevel(Level.OFF);*/
         Platform.setImplicitExit(false);
-        try {
+       /* try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException ex) {
             logger.error("There was a problem registering the native hook.", ex);
             System.exit(1);
         }
 
-        GlobalScreen.addNativeKeyListener(new GlobalKeyListener());
+        GlobalScreen.addNativeKeyListener(new GlobalKeyListener());*/
         initSystemTray();
     }
 

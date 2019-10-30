@@ -2,16 +2,12 @@ package com.tqhy.client.utils;
 
 import com.tqhy.client.ClientApplication;
 import com.tqhy.client.controllers.PreloaderController;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
@@ -143,10 +139,7 @@ public class FXMLUtils {
             scene = new Scene(parentNode, Color.TRANSPARENT);
         }
         scene.getStylesheets().add(NetworkUtils.toExternalForm("/static/css/fx_root.css"));
-        KeyCombination kc = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
-        scene.getAccelerators().put(kc, () -> {
-            Platform.runLater(() -> FXMLUtils.loadChooseModel("/static/fxml/choose_model.fxml"));
-        });
+
         stage.setScene(scene);
         stage.getIcons().add(new Image(NetworkUtils.toExternalForm("/static/img/logo_title_light.png")));
     }

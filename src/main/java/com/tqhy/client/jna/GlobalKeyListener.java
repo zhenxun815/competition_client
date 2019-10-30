@@ -1,7 +1,5 @@
 package com.tqhy.client.jna;
 
-import com.tqhy.client.utils.FXMLUtils;
-import javafx.application.Platform;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.slf4j.Logger;
@@ -37,7 +35,7 @@ public class GlobalKeyListener implements NativeKeyListener {
         }
         if (ctrlPressed && qPressed) {
             logger.info("shot key fired...");
-            Platform.runLater(() -> FXMLUtils.loadChooseModel("/static/fxml/choose_model.fxml"));
+            //Platform.runLater(() -> FXMLUtils.loadChooseModel("/static/fxml/choose_model.fxml"));
         }
     }
 
