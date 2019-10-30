@@ -572,25 +572,20 @@
 	function noteStart() {
 		let datas = {code: userName}
 		$.ajax({
-			//url: "http://192.168.1.233:8887/answer/save", //请求的url地址
-			url: "http://" + serverIP + "/answer/start", //请求的url地址
-			dataType: "json", //返回格式为json
+			url: "http://" + serverIP + "/answer/start",
+			dataType: "json",
 			contentType: 'application/json',
-			async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-			data: JSON.stringify(datas), //参数值
-			type: "POST", //请求方式
+			async: true,
+			data: JSON.stringify(datas),
+			type: "POST",
 			beforeSend: function () {
-				//请求前的处理
 			},
 			success: function (res) {
-				//请求成功时处理
 				console.log(`res is ${JSON.stringify(res)}`)
 			},
 			complete: function () {
-				//请求完成的处理
 			},
 			error: function () {
-				//请求出错处理
 			}
 		});
 	}
@@ -598,13 +593,12 @@
 	function noteStop() {
 		let datas = {code: userName}
 		$.ajax({
-			//url: "http://192.168.1.233:8887/answer/save", //请求的url地址
-			url: "http://" + serverIP + "/answer/stop", //请求的url地址
-			dataType: "json", //返回格式为json
+			url: "http://" + serverIP + "/answer/stop",
+			dataType: "json",
 			contentType: 'application/json',
-			async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-			data: JSON.stringify(datas), //参数值
-			type: "POST", //请求方式
+			async: true,
+			data: JSON.stringify(datas),
+			type: "POST",
 			beforeSend: function () {
 				//请求前的处理
 			},
@@ -621,10 +615,8 @@
 				});
 			},
 			complete: function () {
-				//请求完成的处理
 			},
 			error: function () {
-				//请求出错处理
 			}
 		});
 	}
