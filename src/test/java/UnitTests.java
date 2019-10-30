@@ -1,13 +1,11 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import com.tqhy.client.jna.JnaCaller;
 import com.tqhy.client.models.entity.DownloadInfo;
 import com.tqhy.client.models.entity.Model;
 import com.tqhy.client.models.msg.server.ClientMsg;
 import com.tqhy.client.models.msg.server.ModelMsg;
 import com.tqhy.client.network.Network;
-import com.tqhy.client.utils.DateUtils;
 import com.tqhy.client.utils.FileUtils;
 import com.tqhy.client.utils.GsonUtils;
 import okhttp3.ResponseBody;
@@ -17,11 +15,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -43,35 +43,6 @@ public class UnitTests {
         logger.info("length is {}", bytes.length);
     }
 
-    @Test
-    public void testJudgeDcm() {
-        String dirPath = "H:\\肺结节整理\\35";
-        String dcmName = "1.3.6.1.4.1.25403.127846690305080.3884.20190725093946.3.dcm";
-        boolean isDcm = FileUtils.isDcmFile(new File(dirPath, dcmName));
-        logger.info("is dcm {}", isDcm);
-
-        Optional<File> jpgFileOpt = FileUtils.transToJpg(new File(dirPath, dcmName), new File(dirPath));
-        logger.info(jpgFileOpt.isPresent() ? jpgFileOpt.get().getAbsolutePath() : "fail");
-    }
-
-    @Test
-    public void testParseDcm() {
-
-        String libPath = System.getProperty("java.library.path");
-        logger.info("lib path: is: " + libPath);
-
-        File dcmDir = new File("C:\\Users\\qing\\Desktop\\CT异常检测泛测数据\\正常");
-        File[] dcmFiles = dcmDir.listFiles(FileUtils::isDcmFile);
-        logger.info("dcm count is: " + dcmFiles.length);
-        Arrays.stream(dcmFiles)
-              .forEach(dcmFile -> {
-                  Optional<File> jpgOpt = FileUtils.transToJpg(dcmFile, dcmDir);
-                  if (jpgOpt.isPresent()) {
-                      File jpgFile = jpgOpt.get();
-                      System.out.println("trans jpg file finish..." + jpgFile.getAbsolutePath());
-                  }
-              });
-    }
 
     @Test
     public void testFileUtils() {
@@ -89,32 +60,6 @@ public class UnitTests {
         logger.info("files {}", tempTotalFile.size());
     }
 
-    @Test
-    public void testGetFileMap() {
-        File dir = new File("F:\\dicom\\1234");
-        HashMap<File, String> filesMapInRootDir =
-                FileUtils.getFilesMapInRootDir(dir,
-                                               file -> FileUtils.isDcmFile(file) || FileUtils.isJpgFile(file));
-        HashMap<File, String> filesMapInSubDir =
-                FileUtils.getFilesMapInSubDir(dir,
-                                              file -> FileUtils.isDcmFile(file) || FileUtils.isJpgFile(file),
-                                              dir);
-        logger.info("root dir file is:");
-        filesMapInRootDir.forEach((k, v) -> logger.info("k is {},v is {}", k, v));
-        logger.info("sub dir file is:");
-        filesMapInSubDir.forEach((k, v) -> logger.info("k is {},v is {}", k, v));
-    }
-
-    @Test
-    public void testSys() {
-        File source = new File("D:\\tq_workspace\\client3\\out\\artifacts\\client3\\bundles\\client3\\app",
-                               "opencv_java_64bit.dll");
-        File dest = new File("D:\\tq_workspace\\client3\\out\\artifacts\\client3\\bundles\\client3\\app\\dll",
-                             "opencv_java.dll");
-        boolean copyFile = FileUtils.copyFile(source, dest);
-        logger.info("copy: " + copyFile);
-        //System.out.println("arch: " + SystemUtils.getArc());
-    }
 
     @Test
     public void testNet() {
@@ -178,18 +123,25 @@ public class UnitTests {
         }
     }
 
-    @Test
-    public void testFetchData() {
-        long dateMills = 1546444800000L;
-        long timeMills = 6588000L;
-
-
-        logger.info("datetime is {}", DateUtils.getDatetimeFromMills(dateMills + timeMills));
-    }
-
     public static void main(String[] args) {
-        String imgPath = "C:\\Users\\qing\\Pictures\\北医三院\\eccbc87e4b5ce2fe28308fd9f2a7baf3\\eccbc87e4b5ce2fe28308fd9f2a7baf3.jpg";
-        String data = JnaCaller.fetchData(imgPath, 2177, 158, 86, 20);
-        System.out.println("fetch data: " + data);
+        try {
+
+            File file = new File("F:\\dicom\\ct\\lung 2.5mm", "Image001.dcm");
+            Optional<File> toJpg = FileUtils.transToJpg(file, new File("F:\\dicom\\ct\\lung 2.5mm"));
+            File jpg = toJpg.get();
+            System.out.println(jpg.getAbsolutePath());
+            ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
+            String formatName = reader.getFormatName();
+            System.out.println("reader format name is " + formatName);
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(jpg);
+            reader.setInput(imageInputStream);
+            int imgWidth = reader.getWidth(0);
+            int imgHeight = reader.getHeight(0);
+            System.out.println("width " + imgWidth + " height " + imgHeight);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
