@@ -32,20 +32,17 @@ public class Dcm2JpgUtil {
     private static boolean preferWindow = true;
     private static int overlayGrayscaleValue = 0xffff;
     private static int overlayActivationMask = 0xffff;
-    private static ImageWriteParam imageWriteParam;
-    private static ImageWriter imageWriter;
-    private static ImageReader imageReader;
 
     /**
      * 初始化ImageWriter
      */
-    public static void initImageWriter() {
+    public static ImageWriter initImageWriter() {
         Iterator<ImageWriter> imageWriters = ImageIO.getImageWritersByFormatName("JPEG");
         if (!imageWriters.hasNext()) {
             throw new IllegalArgumentException("formatNotSupported");
         }
-        imageWriter = imageWriters.next();
-        imageWriteParam = imageWriter.getDefaultWriteParam();
+        ImageWriter imageWriter = imageWriters.next();
+        return imageWriter;
     }
 
     /**
@@ -63,34 +60,35 @@ public class Dcm2JpgUtil {
             return null;
         }
         File dest = genJpgFile(dcmFile, jpgDir);
-        initImageWriter();
         try (ImageInputStream iis = ImageIO.createImageInputStream(dcmFile)) {
-            imageReader = ImageIO.getImageReadersByFormatName("DICOM").next();
-            imageReader.setInput(iis);
-            BufferedImage bi = imageReader.read(0, readParam());
-            ColorModel cm = bi.getColorModel();
-            if (cm.getNumComponents() == 3) {
-                bi = BufferedImageUtils.convertToIntRGB(bi);
-            }
-
-            ImageOutputStream ios = ImageIO.createImageOutputStream(dest);
-            try {
-                imageWriter.setOutput(ios);
-                imageWriter.write(null, new IIOImage(bi, null, null), imageWriteParam);
-                return dest;
-            } finally {
-                try {
-                    ios.close();
-                } catch (IOException ignore) {
+            try (ImageOutputStream ios = ImageIO.createImageOutputStream(dest)) {
+                ImageWriter imageWriter = initImageWriter();
+                ImageReader imageReader = ImageIO.getImageReadersByFormatName("DICOM").next();
+                imageReader.setInput(iis);
+                BufferedImage bi = imageReader.read(0, readParam(imageReader));
+                ColorModel cm = bi.getColorModel();
+                if (cm.getNumComponents() == 3) {
+                    bi = BufferedImageUtils.convertToIntRGB(bi);
                 }
+
+
+                imageWriter.setOutput(ios);
+                ImageWriteParam imageWriteParam = imageWriter.getDefaultWriteParam();
+                imageWriter.write(null, new IIOImage(bi, null, null), imageWriteParam);
+                iis.flush();
+                ios.flush();
+
             }
         } catch (IOException e) {
             logger.error("trans dcm error:", e);
+            return null;
         } catch (IllegalStateException e) {
             logger.error("trans dcm error: {}", e.getMessage());
             //e.printStackTrace();
+            return null;
+        } finally {
+            return dest;
         }
-        return null;
     }
 
     /**
@@ -130,7 +128,7 @@ public class Dcm2JpgUtil {
      *
      * @return
      */
-    private static ImageReadParam readParam() {
+    private static ImageReadParam readParam(ImageReader imageReader) {
         DicomImageReadParam param = (DicomImageReadParam) imageReader.getDefaultReadParam();
         param.setAutoWindowing(autoWindowing);
         param.setPreferWindow(preferWindow);
