@@ -1,12 +1,12 @@
 package com.tqhy.client.task;
 
 import com.google.gson.Gson;
-import com.tqhy.client.config.Constants;
 import com.tqhy.client.models.entity.Case;
 import com.tqhy.client.models.entity.OriginData;
 import com.tqhy.client.utils.Dcm2JpgUtil;
 import com.tqhy.client.utils.FileUtils;
 import com.tqhy.client.utils.PrimaryKeyUtil;
+import com.tqhy.client.utils.PropertyUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
@@ -70,12 +70,12 @@ public class DcmTransWorkerTask extends Task {
 
     private List<Case> prepareTask() {
         uploadInfoFile = FileUtils.getLocalFile(localDataPath, batchNumber + ".txt");
-        String appPath = FileUtils.getAppPath();
-        jpgDir = new File(appPath, Constants.PATH_TEMP_JPG);
+        String jpgDirPath = PropertyUtils.getProperty("jpgDir");
+        this.jpgDir = new File(jpgDirPath);
         if (jpgDir.exists()) {
             FileUtils.deleteDir(jpgDir);
         }
-        jpgDir.mkdirs();
+
 
         originCases = collectAll(dirToUpload);
         return originCases;
@@ -106,6 +106,7 @@ public class DcmTransWorkerTask extends Task {
             int total2Transform = dcmFiles.length;
             String caseDirName = caseDir.getName();
             String caseId = PrimaryKeyUtil.getMd5(caseDirName);
+            logger.info("caseDirName is #{}#,caseId is #{}#", caseDirName, caseId);
             File destJpgDir = new File(jpgDir, caseId);
             if (!destJpgDir.exists()) {
                 destJpgDir.mkdirs();
@@ -116,13 +117,14 @@ public class DcmTransWorkerTask extends Task {
                 completeCount += 1;
                 updateTransImgStatus(completeCount, total2Transform);
                 if (null != jpgFile) {
-                    logger.info("convert {} complete...", jpgFile.getAbsolutePath());
+                    //logger.info("convert {} complete...", jpgFile.getAbsolutePath());
 
                     OriginData originData = FileUtils.getOriginData(jpgFile);
                     //OriginData originData = OriginData.of("tt", 0, 0, "pp");
                     originDatas.add(originData);
                 }
             }
+            logger.info("convert dir #{}# complete..", caseDirName);
             cases.add(Case.of(caseId, caseDirName, originDatas));
         }
 
