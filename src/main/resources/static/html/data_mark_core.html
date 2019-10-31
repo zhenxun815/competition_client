@@ -524,16 +524,22 @@
 
 		$("#save_synchronization").click(function () {
 			console.log('save_synchronization....')
+			currCaseName = caseArr[currCaseIndex].caseName
+			networkImagePageData.caseId = caseArr[currCaseIndex].id
 			currCaseIndex += 1
 			console.log(`$total case num ${caseArr.length}, currCaseIndex is ${currCaseIndex}`)
-			if (currCaseIndex >= caseArr.length) {
+			if (currCaseIndex > caseArr.length) {
+				console.log('complete...')
 				tips_message_func('已经完成最后一题..')
+			} else if (currCaseIndex === caseArr.length) {
+				console.log(`last question, currCaseName is ${currCaseName}`)
 				currCaseIndex--
 				noteStop()
+				calcSynchronizationFunc()
+				saveSubmitAllFunc()
 			} else {
 				console.log(`currCaseName is ${currCaseName}`)
-				currCaseName = caseArr[currCaseIndex].caseName
-				networkImagePageData.caseId = caseArr[currCaseIndex].id
+
 				calcSynchronizationFunc()
 				saveSubmitAllFunc()
 				console.log(`networkImagePageData.caseId is ${networkImagePageData.caseId}`)
