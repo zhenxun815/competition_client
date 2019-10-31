@@ -435,11 +435,11 @@ public class UploadFileController {
             OutputStream out = res.getOutputStream();
             res.setHeader("Content-Type", "image/jpeg");
             String path = req.getParameter("path");
-            logger.info("img rel path is: " + path);
+            //logger.info("img rel path is: " + path);
             path = path.replaceAll("\\\\", "/");
-            String appPath = FileUtils.getAppPath();
+            String appPath = PropertyUtils.getProperty("jpgDir");
             String jpgPath = appPath + "/" + path;
-            logger.info("img abs path is: " + jpgPath);
+            //logger.info("img abs path is: " + jpgPath);
             try {
                 File file = new File(jpgPath);
                 if (file != null) {
