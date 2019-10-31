@@ -330,7 +330,7 @@ public class FileUtils {
         String rootPath = getAppPath();
         String localFilePath = rootPath + relativePath;
 
-        logger.info("localFilePath is: " + localFilePath);
+        //logger.info("localFilePath is: " + localFilePath);
         File localFile = new File(localFilePath, fileName);
         return localFile;
     }
@@ -416,19 +416,19 @@ public class FileUtils {
         String imageAbsPath = file.getAbsolutePath().replaceAll("\\\\", "/");
         logger.info("start get origin data {}", imageAbsPath);
 
-        String appPath = FileUtils.getAppPath();
+        String appPath = PropertyUtils.getProperty("jpgDir");
         String imageRelPath = imageAbsPath.replace(appPath, "");
         //logger.info("appPath is {}", appPath);
         //logger.info("imageRelPath is {}", imageRelPath);
         String imgId = getFileMD5(file);
-        logger.info("get imgId {}", imgId);
+        //logger.info("get imgId {}", imgId);
         try {
             ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
             reader.setInput(imageInputStream);
             int imgWidth = reader.getWidth(0);
             int imgHeight = reader.getHeight(0);
-            logger.info("width {}, height {}", imgWidth, imgHeight);
+            //logger.info("width {}, height {}", imgWidth, imgHeight);
             return OriginData.of(imgId, imgWidth, imgHeight, imageRelPath);
         } catch (IOException e) {
             e.printStackTrace();
