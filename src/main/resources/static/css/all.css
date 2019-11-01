@@ -2952,11 +2952,10 @@ form.data-mark-article .fly-submit {
 }
 
 .mark-core-page .mark-core-mark-zone {
-    width: calc(100% - 260px);
+    width: calc(100% - 270px);
     background-color: #0F0F0F;
     border-radius: 5px;
-    display: flex;
-    justify-content: center;
+
 }
 
 .mark-core-page .mark-core-core-zone {
