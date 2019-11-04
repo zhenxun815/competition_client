@@ -528,6 +528,10 @@
 			networkImagePageData.caseId = caseArr[currCaseIndex].id
 			currCaseIndex += 1
 			console.log(`$total case num ${caseArr.length}, currCaseIndex is ${currCaseIndex}`)
+
+			var imageIndexString = "（".concat(currCaseIndex + 1, "/").concat(caseArr.length, "例）");
+			$("#specimen_address_name").html(imageIndexString)
+
 			if (currCaseIndex > caseArr.length) {
 				console.log('complete...')
 				tips_message_func('已经完成最后一题..')
@@ -568,6 +572,10 @@
 					currCaseName = caseArr[currCaseIndex].caseName
 					console.log('case Id: ' + networkImagePageData.caseId)
 					RenderFunc(caseArr[0].originDatas)
+
+					var imageIndexString = "（".concat(currCaseIndex + 1, "/").concat(caseArr.length, "例）");
+					$("#specimen_address_name").html(imageIndexString)
+
 					noteStart()
 				}
 			}
