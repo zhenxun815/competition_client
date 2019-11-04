@@ -121,7 +121,9 @@ public class DcmTransWorkerTask extends Task {
 
                     OriginData originData = FileUtils.getOriginData(jpgFile);
                     //OriginData originData = OriginData.of("tt", 0, 0, "pp");
-                    originDatas.add(originData);
+                    if (null != originData) {
+                        originDatas.add(originData);
+                    }
                 }
             }
             logger.info("convert dir #{}# complete..", caseDirName);
