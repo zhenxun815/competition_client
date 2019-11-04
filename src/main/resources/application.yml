@@ -1,5 +1,5 @@
 server:
-    port: 69527
+    port: 59527
 
 #db
 spring:
