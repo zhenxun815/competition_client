@@ -529,8 +529,7 @@
 			currCaseIndex += 1
 			console.log(`$total case num ${caseArr.length}, currCaseIndex is ${currCaseIndex}`)
 
-			var imageIndexString = "（".concat(currCaseIndex + 1, "/").concat(caseArr.length, "例）");
-			$("#specimen_address_name").html(imageIndexString)
+
 
 			if (currCaseIndex > caseArr.length) {
 				console.log('complete...')
@@ -538,12 +537,15 @@
 			} else if (currCaseIndex === caseArr.length) {
 				console.log(`last question, currCaseName is ${currCaseName}`)
 				currCaseIndex--
+				var imageIndexString = "（".concat(currCaseIndex + 1, "/").concat(caseArr.length, "例）");
+				$("#specimen_address_name").html(imageIndexString)
 				noteStop()
 				calcSynchronizationFunc()
 				saveSubmitAllFunc()
 			} else {
 				console.log(`currCaseName is ${currCaseName}`)
-
+				var imageIndexString = "（".concat(currCaseIndex + 1, "/").concat(caseArr.length, "例）");
+				$("#specimen_address_name").html(imageIndexString)
 				calcSynchronizationFunc()
 				saveSubmitAllFunc()
 				console.log(`networkImagePageData.caseId is ${networkImagePageData.caseId}`)
